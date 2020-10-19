@@ -10,7 +10,7 @@ from .models import DumboUser
 # Register your models here.
 
 class DumboUserCreationForm(forms.ModelForm):
-    """A Form for creating DumboUser from the admin page of django"""
+    """A Form for creating DumboUser"""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
@@ -58,18 +58,17 @@ class DumboUserAdmin(BaseUserAdmin):
     form = DumboUserChangeForm
     add_form = DumboUserCreationForm
 
-    # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'email', 'fullname')
-    list_filter = ('is_superuser', 'is_staff')
+    list_display = ('username', 'email', 'fullname')  # The fields that will be displayed in the Admin Panel.
+    list_filter = ('is_superuser', 'is_staff')  # Filters available
     fieldsets = (
         ('Authentication Info', {'fields': ('username', 'email', 'password')}),
         ('Personal info', {'fields': ('fullname', 'phone_number', )}),
         ('Permissions', {'fields': ('is_staff', 'is_superuser')}),
     )
-    # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # overrides get_fieldsets to use this attribute when creating a user.
+    # add_fieldsets is not a standard ModelAdmin attribute.
+    # UserAdmin overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
