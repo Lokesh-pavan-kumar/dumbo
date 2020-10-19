@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User-Registration</title>
+</head>
+<body>
+    {#@ Tarun please put the register html in here, most prolly the same `base` #}
+    {#template(used for login, register) can be extended here#}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>
