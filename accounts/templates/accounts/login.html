@@ -3,8 +3,8 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1;">
-    <div class="col-lg-6 pt-5 pb-5" style="background: #162B41;border-radius: 10px;left: -15px;">
+    <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1; height: 100%; width: 100%">
+    <div class="col-lg-6 container-fluid pt-5 " style="background: #162B41;border-radius: 10px;left: -15px;height: 100%;width: 100%">
         <h1 class="text-center pt-4" style="color: white;font-family: Montserrat-Medium;font-size: 100px;">Login</h1>
         <div class="container-fluid mt-4 mb-4">
             <img src="{% static "accounts/undraw_Login_re_4vu2 1.svg" %}" class="img-fluid" alt="login svg">
@@ -17,9 +17,9 @@
                 <div class="form-group">
                     {% csrf_token %}
                     <label for="" style="font-family: Montserrat-Medium;font-size:28px">USERNAME</label>
-                    {% render_field form.identifier type="username" class="form-control" placeholder="Enter email" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;color: white"%}
+                    {% render_field form.identifier type="username" class="form-control" placeholder="Enter email" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium"%}
                     <label class="pt-5" for="exampleInputPassword1" style="font-family: Montserrat-Medium;font-size:28px">PASSWORD</label>
-                    {% render_field form.password type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;color: white" %}
+                    {% render_field form.password type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium" %}
                     <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="#">Forgot your password?</a></small>
 
                     <div class="text-center py-3">
