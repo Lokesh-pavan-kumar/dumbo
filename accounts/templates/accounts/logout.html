@@ -1,12 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User-Logout</title>
-</head>
-<body>
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+    <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1;height: 100%; width: 100%">
+    <div class="col-lg-6 pt-5 pb-0 mb-0" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%; width: 100%">
+        <h1 class="text-center pt-3" style="color: white;font-family: Montserrat-Medium;font-size: 85px;">You've been <br> Logged out! </h1>
+        <div class="container-fluid px-5 pt-3 pb-3 mb-3">
+            <img src="{% static "accounts/undraw_before_dawn_bqrj 1.svg" %}" class="img-fluid" alt="logout svg">
+        </div>
+    </div>
+    <div class="col-lg-6 pt-5">
+        <div class="container pt-5 px-5">
+            <h2 class="text-center py-3" style="font-family: Montserrat-Medium;font-size: 42px;">Login again!</h2>
+            <small class="form-text text-muted text-center py-3" style="font-family: Montserrat-Medium;font-size: 35px;color: #0000EE"><a href="{% url "login" %}">Go back to the Login page</a></small>
+            <div class="container">
+                <p class="text-center pt-5 mt-5" style="font-family: Montserrat-Medium;font-size: 40px;">
+                Or explore the site and know
+more about us
+            </p>
+            </div>
+            <div class="container d-flex justify-content-center">
+                <button class="btn" style="background-color: white;border-color: black"><h2 class="text-center" style=""><a href="#" style="font-family: Montserrat-Medium;font-size: 24px;color: black">About us</a></h2></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
     {#@ Tarun please put the logout html in here, most prolly the same `base` #}
     {#template(used for login, register) can be extended here#}
-    You have been logged out
-</body>
-</html>
