@@ -1,16 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LandingPage</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dumbo{% endblock %}
+{% block content %}
+<div class="container mx-auto pt-5 pb-0">
+    <div class="row pt-5 pb-0">
+        <div class="col-lg-6">
+            <h1 class="display-2" style="font-family: Montserrat-Medium;">Welcome to Dumbo!</h1>
+            <p class="lead" style="font-family: Montserrat-Medium;">A single place for all your documents.</p>
+            <p class="lead" style="font-family: Montserrat-Medium;">To know more, register for a free <br> account right now.</p>
+            <button type="button" style=" background-color: black;border-radius: 60px;" class="btn"><a style="font-family: Montserrat-Medium;font-size: 22px; color: white;text-underline: none" class="text-light badge" href="{% url "register" %}">Register</a></button>
+        </div>
+         <div class="col-lg-5 pt-5 ml-5 pl-5 mt-4">
+             <img class="img-fluid float-right"  src="{% static "accounts/undraw_my_files_swob.svg" %}" alt="a vector 1">
+        </div>
+    </div>
+</div>
+
     {#@ Tarun the landing page should go in here (which extends the base template that'll be used for landing, about, contact)#}
-    This should work as of now!
-    This is another line of html
+
     {% if user.is_authenticated %}
         You are now logged in!
         Username : {{ user }}
     {% endif %}
-</body>
-</html>
+{% endblock %}
