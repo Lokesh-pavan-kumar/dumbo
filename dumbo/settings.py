@@ -32,13 +32,16 @@ AUTH_USER_MODEL = 'accounts.DumboUser'
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
-    'widget_tweaks',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django', # Third parth authentication python3 -m pip install django social-auth-app-django
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -64,12 +67,31 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends', # Third party authentication
+                'social_django.context_processors.login_redirect', # Third parth authentication
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'dumbo.wsgi.application'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "893735598957-tv68cp00apgmsbsh4bsn5255rb6i1ndd.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "-VnQVSxZbwjiidrfSxH-CMbY"
+
+SOCIAL_AUTH_FACEBOOK_KEY = "474475026860879"   
+SOCIAL_AUTH_FACEBOOK_SECRET = "9c38b208b051b0614e9292db0b1c836d" 
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] 
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {      
+  'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -99,6 +121,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -116,4 +146,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'landingpage'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'login'
+

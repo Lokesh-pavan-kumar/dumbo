@@ -13,12 +13,13 @@ class DumboUserCreationForm(forms.ModelForm):
     """A Form for creating DumboUser"""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
-    fullname = forms.CharField(label='Full Name', required=False)
+    # fullname = forms.CharField(label='Full Name', required=False)
     phone_number = forms.CharField(label='Phone Number', required=False)
 
     class Meta:
         model = DumboUser
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'fullname', 'phone_number']
+        required = ['username', 'email']
 
     def clean_password2(self):
         # Check that the two password entries match and validate

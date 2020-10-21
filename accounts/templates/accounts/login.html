@@ -30,24 +30,16 @@
                 </div>
             </form>
                     <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE">OR</small>
-            <div class="row">
-                <div class="col-lg-6 text-center">
-                    <a href="#" class="badge badge-light">
-                         <div class="container border border-dark p-2 pb-3" style="border-radius: 15px">
-                             <img class="img-fluid px-2 pb-1 pr-4 border-right border-dark" src="{% static "accounts/google-symbol 1.png" %}" alt="">
-                            <h5 class="text-center float-right px-2 pr-4">Login with Google</h5>
-                        </div>
-                    </a>
+
+                <div class="row">
+                    <div class="col">
+                        <a style="text-decoration: none" href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-lg btn-google btn-block text-uppercase" type="button"><i class="fab fa-google mr-2"></i> Sign in with Google</button></a>
+                    </div>
+                    <div class="col">
+                        <a style="text-decoration: none" href="{% url 'social:begin' 'facebook' %}"><button class="btn btn-lg btn-facebook btn-block text-uppercase" type="button" ><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button></a>
+                    </div>
                 </div>
-                 <div class="col-lg-6 text-center">
-                    <a href="#" class="badge badge-light">
-                         <div class="container border border-dark p-2 pb-3" style="border-radius: 15px">
-                             <img class="img-fluid px-2 pr-4 border-right border-dark" src="{% static "accounts/Vector.png" %}" alt="">
-                            <h5 class="text-center float-right px-2 pr-2">Login with Facebook</h5>
-                        </div>
-                    </a>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

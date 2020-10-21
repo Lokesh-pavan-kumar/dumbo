@@ -20,5 +20,6 @@ from .views import landing_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name='landingpage'),
-    path('user/', include('accounts.urls'))
+    path('user/', include('accounts.urls')),
+    path('social-auth/', include('social_django.urls', namespace="social")),  
 ]
