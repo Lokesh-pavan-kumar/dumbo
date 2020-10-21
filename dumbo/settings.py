@@ -32,13 +32,13 @@ AUTH_USER_MODEL = 'accounts.DumboUser'
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

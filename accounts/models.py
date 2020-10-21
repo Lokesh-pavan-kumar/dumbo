@@ -4,20 +4,19 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 class DumboUserManager(BaseUserManager):
-    def create_user(self, email, username, fullname, password=None, **kwargs):
+    def create_user(self, email, username, password=None, **kwargs):
         if not email:
             raise ValueError('All users must have a unique email')
         if not username:
             raise ValueError('All users must have a unique username')
-        if not fullname:
-            raise ValueError('Users must have a fullname')
+
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username, fullname=fullname, **kwargs)
+        user = self.model(email=email, username=username, **kwargs)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, fullname, password=None, **kwargs):
+    def create_superuser(self, email, username, password=None, **kwargs):
         kwargs.setdefault('is_staff', True)
         kwargs.setdefault('is_superuser', True)
         kwargs.setdefault('is_active', True)
@@ -26,7 +25,7 @@ class DumboUserManager(BaseUserManager):
             raise ValueError('is_staff must be set to True for Superusers')
         if kwargs['is_superuser'] is False:
             raise ValueError('is_superuser must be set to True for Superusers')
-        return self.create_user(email, username, fullname, password, **kwargs)
+        return self.create_user(email, username, password, **kwargs)
 
 
 class DumboUser(AbstractBaseUser):
@@ -44,7 +43,7 @@ class DumboUser(AbstractBaseUser):
 
     objects = DumboUserManager()
 
-    REQUIRED_FIELDS = ['fullname', 'email']
+    REQUIRED_FIELDS = ['email', 'fullname']
     USERNAME_FIELD = 'username'  # We will be using the username to identify the users
     EMAIL_FIELD = 'email'
 

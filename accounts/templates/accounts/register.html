@@ -13,12 +13,12 @@
     <div class="col-lg-6 pt-5">
         <div class="container pt-3 px-5 m-0">
             <h2 class="text-center " style="font-family: Montserrat-Medium;font-size: 40px;">Join us today, its free!</h2>
-            <form action="">
+            <form action="" method="post">
                 <div class="form-group">
                     {% csrf_token %}
 
                     <label class="pt-1" for="" style="font-family: Montserrat-Medium;font-size:24px">USERNAME</label>
-                    {% render_field form.username type="username" class="form-control" placeholder="Enter email" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
+                    {% render_field form.username type="username" class="form-control" placeholder="Enter Username" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
                     <label class="pt-1" for="" style="font-family: Montserrat-Medium;font-size:24px">FullName</label>
                     {% render_field form.fullname type="fullname" class="form-control" placeholder="Enter Fullname" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;" %}
@@ -27,7 +27,7 @@
                     {% render_field form.email type="email" class="form-control" id="exampleInputEmail" placeholder="Enter Email" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;" %}
 
                      <label class="pt-1" for="phoneNo" style="font-family: Montserrat-Medium;font-size:24px">Phone no</label>
-                    {% render_field form.phone_number type="email" class="form-control" id="phoneNo" placeholder="Enter Phoneno" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
+                    {% render_field form.phone_number class="form-control" id="phoneNo" placeholder="Enter Phoneno" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
                     <label class="pt-1" for="exampleInputPassword1" style="font-family: Montserrat-Medium;font-size:24px">Password</label>
                     {% render_field form.password1 type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;" %}
