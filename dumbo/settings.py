@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'social_django', # Third parth authentication
+    'social_django', # Third parth authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
 ]
 
