@@ -14,7 +14,7 @@ class DumboUserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
     # fullname = forms.CharField(label='Full Name', required=False)
-    # phone_number = forms.CharField(label='Phone Number', required=False)
+    phone_number = forms.CharField(label='Phone Number', required=False)
 
     class Meta:
         model = DumboUser
