@@ -35,7 +35,7 @@ class DumboUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
+        
 
 class DumboUserChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on

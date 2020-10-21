@@ -35,7 +35,7 @@
                     <a href="#" class="badge badge-light">
                          <div class="container border border-dark p-2 pb-3" style="border-radius: 15px">
                              <img class="img-fluid px-2 pb-1 pr-4 border-right border-dark" src="{% static "accounts/google-symbol 1.png" %}" alt="">
-                            <h5 class="text-center float-right px-2 pr-4">Login with Google</h5>
+                            <h5 class="text-center float-right px-2 pr-4"><a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</h5>
                         </div>
                     </a>
                 </div>
@@ -43,7 +43,7 @@
                     <a href="#" class="badge badge-light">
                          <div class="container border border-dark p-2 pb-3" style="border-radius: 15px">
                              <img class="img-fluid px-2 pr-4 border-right border-dark" src="{% static "accounts/Vector.png" %}" alt="">
-                            <h5 class="text-center float-right px-2 pr-2">Login with Facebook</h5>
+                            <h5 class="text-center float-right px-2 pr-2"><a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a></h5>
                         </div>
                     </a>
                 </div>
