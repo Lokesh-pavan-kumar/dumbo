@@ -152,3 +152,12 @@ LOGIN_REDIRECT_URL = 'landingpage'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'noreply.farmx'
+EMAIL_HOST_PASSWORD = 'farmxpass1234'
+EMAIL_USE_TLS = True
+
+
+

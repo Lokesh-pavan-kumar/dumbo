@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 
+
 User = get_user_model()
 
 
@@ -29,3 +30,4 @@ class DumboUserLoginForm(forms.Form):
             raise forms.ValidationError("The given combination of credentials are not correct")
         self.cleaned_data['user_object'] = user_object  # Add the user_object to the cleaned_data
         return super(DumboUserLoginForm, self).clean()
+
