@@ -27,7 +27,7 @@ def login_view(request):
             # Users can be authenticated into the site either by using
             # their email and username since for a user both are unique
             # and can be used to identified the user
-            login(request, user_object)
+            login(request, user_object, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('landingpage')
     else:
         form = DumboUserLoginForm()
