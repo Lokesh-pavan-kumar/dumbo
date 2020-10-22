@@ -4,7 +4,7 @@
 {% block title %}Register{% endblock %}
 {% block content %}
     <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1;height: 100%; width: 100%">
-    <div class="col-lg-6 pt-5 pb-5 mb-0" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%; width: 100%">
+    <div class="col-lg-6 pt-5 pb-5 mb-0 shadow-lg" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%; width: 100%">
         <h1 class="text-center py-4" style="color: white;font-family: Montserrat-Medium;font-size: 100px;">Register</h1>
         <div class="container-fluid  px-5 py-4 mb-3">
             <img src="{% static "accounts/undraw_welcome_3gvl 1.svg" %}" class="img-fluid" alt="login svg">
@@ -37,7 +37,7 @@
                     {% render_field form.password2 type="password" class="form-control" id="exampleInputPassword2" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
                     <div class="text-center pt-3">
-                        <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5">Register</button>
+                        <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Register</button>
                     </div>
                 </div>
             </form>
