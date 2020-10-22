@@ -4,7 +4,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1; height: 100%; width: 100%">
-    <div class="col-lg-6 container-fluid pt-5 " style="background: #162B41;border-radius: 10px;left: -15px;height: 100%;width: 100%">
+    <div class="col-lg-6 container-fluid pt-5 shadow-lg" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%;width: 100%">
         <h1 class="text-center pt-4" style="color: white;font-family: Montserrat-Medium;font-size: 100px;">Login</h1>
         <div class="container-fluid mt-4 mb-4">
             <img src="{% static "accounts/undraw_Login_re_4vu2 1.svg" %}" class="img-fluid" alt="login svg">
@@ -23,7 +23,7 @@
                     <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="#">Forgot your password?</a></small>
 
                     <div class="text-center py-3">
-                        <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5">Login</button>
+                        <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Login</button>
                     </div>
 
                     <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url "register" %}">Don’t have an account? Register now!</a></small>
@@ -33,10 +33,10 @@
 
                 <div class="row">
                     <div class="col">
-                        <a style="text-decoration: none" href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-lg btn-google btn-block text-uppercase" type="button"><i class="fab fa-google mr-2"></i> Sign in with Google</button></a>
+                        <a style="text-decoration: none" href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-lg btn-google btn-block text-uppercase shadow-lg" type="button"><i class="fab fa-google mr-2"></i> Sign in with Google</button></a>
                     </div>
                     <div class="col">
-                        <a style="text-decoration: none" href="{% url 'social:begin' 'facebook' %}"><button class="btn btn-lg btn-facebook btn-block text-uppercase" type="button" ><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button></a>
+                        <a style="text-decoration: none" href="{% url 'social:begin' 'facebook' %}"><button class="btn btn-lg btn-facebook btn-block text-uppercase shadow-lg" type="button" ><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button></a>
                     </div>
                 </div>
 
