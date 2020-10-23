@@ -1,10 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User-Email verification complete</title>
-</head>
-<body>
-Email has been verified succesfully.
-</body>
-</html>
+{% extends "accounts/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}User-Email verification complete{% endblock %}
+{% block content %}
+    <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1;height: 100%; width: 100%">
+    <div class="col-lg-6 pt-5 pb-5 mb-0 shadow-lg" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%; width: 100%">
+        <h1 class="text-center py-4" style="color: white;font-family: Montserrat-Medium;font-size: 100px;">Register</h1>
+        <div class="container-fluid  px-5 py-4 mb-3">
+            <img src="{% static "accounts/undraw_welcome_3gvl 1.svg" %}" class="img-fluid" alt="login svg">
+        </div>
+    </div>
+    <div class="col-lg-6 pt-5">
+        <div class="container pt-3 px-5 m-0">
+            <h2 class="text-center pt-5" style="font-family: Montserrat-Medium;font-size: 40px;"> Email has been verified succesfully.</h2>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    {#@ Tarun please put the register html in here, most prolly the same `base` #}
+    {#template(used for login, register) can be extended here#}
+
+
+
+
+
+
+
+
+
+
+
