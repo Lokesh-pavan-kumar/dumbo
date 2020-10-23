@@ -20,7 +20,7 @@
                     {% render_field form.identifier type="username" class="form-control" placeholder="Enter Email/Username" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium"%}
                     <label class="pt-5" for="exampleInputPassword1" style="font-family: Montserrat-Medium;font-size:28px">PASSWORD</label>
                     {% render_field form.password type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium" %}
-                    <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="#">Forgot your password?</a></small>
+                    <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
 
                     <div class="text-center py-3">
                         <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Login</button>

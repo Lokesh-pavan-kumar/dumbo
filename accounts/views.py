@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from .models import DumboUser
 from django.utils.encoding import force_bytes, force_text
 
+
 # Create your views here.
 def register(request):  # This view is used to register new users into the application
     if request.method == 'POST':
@@ -32,7 +33,7 @@ def register(request):  # This view is used to register new users into the appli
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
-            mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email]
             )
             # Email for account verification sent
             email.send()
@@ -56,6 +57,8 @@ def login_view(request):
     else:
         form = DumboUserLoginForm()
     return render(request, 'accounts/login.html', {'form': form})
+
+
 # View for activation link
 def activate(request, uidb64, token):
     try:
@@ -67,8 +70,8 @@ def activate(request, uidb64, token):
         # Verified the user, thus made active
         user.is_active = True
         user.save()
-		# Logged in
+        # Logged in
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return render(request,'accounts/email_confirm.html')
+        return render(request, 'accounts/email_confirm.html')
     else:
         return HttpResponse('Activation link is invalid!')
