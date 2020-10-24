@@ -24,7 +24,7 @@ def register(request):  # This view is used to register new users into the appli
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            mail_subject = 'Activate your HomeChef account.'
+            mail_subject = 'Activate your Dumbo account.'
             message = render_to_string('accounts/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
