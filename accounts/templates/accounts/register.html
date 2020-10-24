@@ -10,24 +10,23 @@
             <img src="{% static "accounts/undraw_welcome_3gvl 1.svg" %}" class="img-fluid" alt="login svg">
         </div>
     </div>
-    <div class="col-lg-6 pt-5">
+    <div class="col-lg-6 pt-5" style="height: 100%;width: 100%">
         <div class="container pt-3 px-5 m-0">
             <h2 class="text-center " style="font-family: Montserrat-Medium;font-size: 40px;">Join us today, its free!</h2>
-            <div class="container-fluid example" style="height: 500px;overflow: auto">
+            <div class="container-fluid">
                 <form action="" method="post">
-                <div class="form-group">
+                <div class="form-group example" style="height: 500px;overflow: auto">
                     {% csrf_token %}
-
-                    <label class="pt-3" for="" style="font-family: Montserrat-Medium;font-size:24px">USERNAME</label>
+                    <label class="pt-3" for="" style="font-family: Montserrat-Medium;font-size:24px">USERNAME</label>{{ form.errors.username }}
                     {% render_field form.username type="username" class="form-control" placeholder="Enter Username" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
                     <label class="pt-3" for="" style="font-family: Montserrat-Medium;font-size:24px">FullName</label>
                     {% render_field form.fullname type="fullname" class="form-control" placeholder="Enter Fullname" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;" %}
 
-                    <label class="pt-3" for="exampleInputEmail" style="font-family: Montserrat-Medium;font-size:24px">Email</label>
+                    <label class="pt-3" for="exampleInputEmail" style="font-family: Montserrat-Medium;font-size:24px">Email</label>{{ form.errors.email }}
                     {% render_field form.email type="email" class="form-control" id="exampleInputEmail" placeholder="Enter Email" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;" %}
 
-                     <label class="pt-3" for="phoneNo" style="font-family: Montserrat-Medium;font-size:24px">Phone no</label>
+                     <label class="pt-3" for="phoneNo" style="font-family: Montserrat-Medium;font-size:24px">Phone no</label>{{ form.errors.phone_number }}
                     {% render_field form.phone_number class="form-control" id="phoneNo" placeholder="Enter Phoneno" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
                     <label class="pt-3" for="exampleInputPassword1" style="font-family: Montserrat-Medium;font-size:24px">Password</label>
@@ -36,13 +35,13 @@
                     <label class="pt-3" for="exampleInputPassword2" style="font-family: Montserrat-Medium;font-size:24px">Confirm Password</label>
                     {% render_field form.password2 type="password" class="form-control" id="exampleInputPassword2" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium;"%}
 
+                </div>
                     <div class="text-center pt-3">
                         <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Register</button>
                     </div>
-                </div>
             </form>
             </div>
-            <small class="form-text text-center pt-3" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url "login" %}">Have an account? Login instead</a></small>
+            <small class="form-text text-center pt-1" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url "login" %}">Have an account? Login instead</a></small>
             </div>
         </div>
     </div>
