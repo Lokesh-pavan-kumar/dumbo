@@ -17,15 +17,15 @@ def my_documents(request):
             doc_object.owner = request.user
             doc_object.save()
 
-            src_path = os.path.join(MEDIA_ROOT, doc_object.path.name)
-            download_path = os.path.join(MEDIA_ROOT, f'documents/{doc_object.name}')
-            print(f'Source Path : {src_path}, Download Path : {download_path}')
-            to_format(src_path, download_path)
-            doc_object.path = f'{download_path}.pdf'
-            doc_object.save()
+            src_path = doc_object.path.url
+            # download_path = os.path.join(MEDIA_ROOT, f'documents/{doc_object.name}')
+            # print(f'Source Path : {src_path}, Download Path : {download_path}')
+            # to_format(doc_object.path.url, doc_object.path.url)
+            # doc_object.path = f'{download_path}.pdf'
+            # doc_object.save()
 
-            os.remove(src_path)
-            print('File Successfully Deleted')
+            # os.remove(src_path)
+            # print('File Successfully Deleted')
 
             return redirect('landingpage')
     context = {'form': form, 'documents': Document.objects.all()}

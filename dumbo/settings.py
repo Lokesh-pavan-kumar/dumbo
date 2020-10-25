@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'social_django', # Third parth authentication python3 -m pip install django social-auth-app-django
+    'social_django',  # Third parth authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
 ]
 
@@ -68,8 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends', # Third party authentication
-                'social_django.context_processors.login_redirect', # Third parth authentication
+                'social_django.context_processors.backends',  # Third party authentication
+                'social_django.context_processors.login_redirect',  # Third parth authentication
             ],
         },
     },
@@ -80,19 +80,18 @@ WSGI_APPLICATION = 'dumbo.wsgi.application'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "893735598957-tv68cp00apgmsbsh4bsn5255rb6i1ndd.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "-VnQVSxZbwjiidrfSxH-CMbY"
 
-SOCIAL_AUTH_FACEBOOK_KEY = "474475026860879"   
-SOCIAL_AUTH_FACEBOOK_SECRET = "9c38b208b051b0614e9292db0b1c836d" 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] 
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {      
-  'fields': 'id, name, email, picture.type(large), link'
+SOCIAL_AUTH_FACEBOOK_KEY = "474475026860879"
+SOCIAL_AUTH_FACEBOOK_SECRET = "9c38b208b051b0614e9292db0b1c836d"
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email, picture.type(large), link'
 }
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
     ('name', 'name'),
     ('email', 'email'),
     ('picture', 'picture'),
     ('link', 'profile_url'),
 ]
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -122,14 +121,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -160,6 +157,14 @@ EMAIL_HOST_USER = 'noreply.farmx'
 EMAIL_HOST_PASSWORD = 'farmxpass1234'
 EMAIL_USE_TLS = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
+from google.oauth2 import service_account
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'credential.json'))
+DEFAULT_FILE_STORAGE = 'dumbo.gcloud.GoogleCloudMediaFileStorage'
+GS_PROJECT_ID = 'dumbo-293616'
+GS_BUCKET_NAME = 'dumbo-document-storage'
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+UPLOAD_ROOT = 'media/uploads/'
