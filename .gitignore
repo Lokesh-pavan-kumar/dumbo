@@ -1,3 +1,4 @@
 .idea
 dumbo/__pycache__
 accounts/__pycache__
+!**/__pycache__/

@@ -32,6 +32,7 @@ AUTH_USER_MODEL = 'accounts.DumboUser'
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'documents.apps.DocumentsConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -159,5 +160,6 @@ EMAIL_HOST_USER = 'noreply.farmx'
 EMAIL_HOST_PASSWORD = 'farmxpass1234'
 EMAIL_USE_TLS = True
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
