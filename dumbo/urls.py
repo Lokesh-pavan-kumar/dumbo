@@ -9,7 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name='landingpage'),
     path('user/', include('accounts.urls')),
-    path('social-auth/', include('social_django.urls', namespace="social")),  
+    path('social-auth/', include('social_django.urls', namespace="social")),
+    path('documents/', include('documents.urls'))
 ]
 
 if settings.DEBUG:
