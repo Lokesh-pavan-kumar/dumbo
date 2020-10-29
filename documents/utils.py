@@ -3,16 +3,10 @@ from google.cloud import vision
 from google.cloud import storage
 import re
 import json
-import argparse
-import io
 from google.cloud import language_v1
-import numpy
-import six
 
 
 def from_document(source_uri: str, destination_uri: str):
-    if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'credential.json'
     mime_type = 'application/pdf'  # Supported mime_types are: 'application/pdf' and 'image/tiff'
     batch_size = 2  # How many pages should be grouped into each json output file.
 
@@ -31,7 +25,7 @@ def from_document(source_uri: str, destination_uri: str):
     operation = client.async_batch_annotate_files(
         requests=[async_request])
     print('Waiting for the operation to finish.')
-    operation.result(timeout=420)
+    operation.result(timeout=360)
     storage_client = storage.Client()
 
     match = re.match(r'gs://([^/]+)/(.+)', destination_uri)
@@ -42,9 +36,7 @@ def from_document(source_uri: str, destination_uri: str):
 
     # List objects with the given prefix.
     blob_list = list(bucket.list_blobs(prefix=prefix))
-    print('Output files:')
-    for blob in blob_list:
-        print(blob.name)
+    blob_names = [blob.name for blob in blob_list]
 
     # Process the first output file from GCS.
     # Since we specified batch_size=2, the first response contains
@@ -59,7 +51,7 @@ def from_document(source_uri: str, destination_uri: str):
         annotation = first_page_response['fullTextAnnotation']
 
         text_response.append(annotation['text'])
-    return text_response
+    return text_response, blob_names
 
 
 def extract_text(from_: str = 'remote', dtype: str = 'image', location: str = None, destination_uri: str = None):
@@ -85,17 +77,17 @@ def extract_text(from_: str = 'remote', dtype: str = 'image', location: str = No
     elif dtype == 'document' or dtype == 'pdf':
         # Document doesn't mean pdf, if dtype = 'document'
         # Even if the input is an image(TIFF), we perform `DOCUMENT_TEXT_DETECTION`
-        from_document(location, destination_uri)
+        return from_document(location, destination_uri)
 
 
 # For document text retrieval
 # src = 'gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf'
 # des = 'gs://dumbo-document-storage/tags/ReportTags'
 
-text = from_document('gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf',
-                     'gs://dumbo-document-storage/tags/ReportTags')
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credential.json"
+# text = from_document('gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf',
+#                      'gs://dumbo-document-storage/tags/ReportTags')
+#
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credential.json"
 
 
 def classify(text, verbose=True):
@@ -109,20 +101,14 @@ def classify(text, verbose=True):
     response = language_client.classify_text(request={'document': document})
     categories = response.categories
 
-    result = []
+    categories_list = []
 
     for category in categories:
         # Turn the categories into a dictionary of the form:
         # {category.name: category.confidence}, so that they can
         # be treated as a sparse vector.
         # result[category.name] = category.confidence
-        result.append(category.name)
-
-    # if verbose:
-    #   for category in categories:
-    #      print(u"=" * 20)
-    #      print(u"{:<16}: {}".format("category", category.name))
-    #      print(u"{:<16}: {}".format("confidence", category.confidence))
+        categories_list.append(category.name)
 
     # Available values: NONE, UTF8, UTF16, UTF32
     encoding_type = language_v1.EncodingType.UTF8
@@ -130,14 +116,41 @@ def classify(text, verbose=True):
     response1 = language_client.analyze_entities(request={'document': document, 'encoding_type': encoding_type})
 
     # Loop through entities returned from the API
-
+    entities_list = []
     for entity in response1.entities:
         if entity.salience > 0.05:
-            result.append(entity.name)
+            entities_list.append(entity.name)
         else:
             break
 
-    return result
+    return categories_list, entities_list
 
 
-classify('\n'.join(text))
+def split_labels(categories):
+    category_list = []
+    for name in categories:
+        labels = [label for label in name.split("/") if label]
+        for label in labels:
+            category_list.append(label)
+
+    return category_list
+
+
+def get_tags(source_uri: str, dest_uri: str, dtype: str):
+    if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'credential.json'
+    if dtype == 'image':
+        ret_text = extract_text('remote', dtype, source_uri, dest_uri)
+    else:
+        # Text is a list of string, blob-names are returned
+        ret_text, blob_names = extract_text('remote', 'document', source_uri, dest_uri)
+        ret_text = '\n'.join(ret_text)
+        storage_client = storage.Client()
+        for blob_name in blob_names:
+            bucket = storage_client.bucket('dumbo-document-storage')
+            blob = bucket.blob(blob_name)
+            blob.delete()
+    categories, entities = classify(ret_text)
+    categories = list(set(split_labels(categories)))
+    tags = categories + entities
+    return ', '.join(tags)
