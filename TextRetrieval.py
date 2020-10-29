@@ -3,6 +3,11 @@ from google.cloud import vision
 from google.cloud import storage
 import re
 import json
+import argparse
+import io
+from google.cloud import language_v1
+import numpy
+import six
 
 
 def from_document(source_uri: str, destination_uri: str):
@@ -87,4 +92,52 @@ def extract_text(from_: str = 'remote', dtype: str = 'image', location: str = No
 # src = 'gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf'
 # des = 'gs://dumbo-document-storage/tags/ReportTags'
 
-print(from_document('gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf', 'gs://dumbo-document-storage/tags/ReportTags'))
+text = from_document('gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf',
+                     'gs://dumbo-document-storage/tags/ReportTags')
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credential.json"
+
+
+def classify(text, verbose=True):
+    """Classify the input text into categories. """
+
+    language_client = language_v1.LanguageServiceClient()
+
+    document = language_v1.Document(
+        content=text, type_=language_v1.Document.Type.PLAIN_TEXT
+    )
+    response = language_client.classify_text(request={'document': document})
+    categories = response.categories
+
+    result = []
+
+    for category in categories:
+        # Turn the categories into a dictionary of the form:
+        # {category.name: category.confidence}, so that they can
+        # be treated as a sparse vector.
+        # result[category.name] = category.confidence
+        result.append(category.name)
+
+    # if verbose:
+    #   for category in categories:
+    #      print(u"=" * 20)
+    #      print(u"{:<16}: {}".format("category", category.name))
+    #      print(u"{:<16}: {}".format("confidence", category.confidence))
+
+    # Available values: NONE, UTF8, UTF16, UTF32
+    encoding_type = language_v1.EncodingType.UTF8
+
+    response1 = language_client.analyze_entities(request={'document': document, 'encoding_type': encoding_type})
+
+    # Loop through entities returned from the API
+
+    for entity in response1.entities:
+        if entity.salience > 0.05:
+            result.append(entity.name)
+        else:
+            break
+
+    return result
+
+
+classify('\n'.join(text))
