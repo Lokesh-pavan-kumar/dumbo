@@ -152,10 +152,4 @@ def get_tags(source_uri: str, dest_uri: str, dtype: str):
     categories, entities = classify(ret_text)
     categories = list(set(split_labels(categories)))
     tags = categories + entities
-    return ', '.join(tags)
-
-
-src = 'gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf'
-dst = 'gs://dumbo-document-storage/tags/ReportTags'
-
-print(get_tags(src, dst, 'pdf'))
+    return tags

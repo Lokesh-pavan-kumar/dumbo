@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'social_django',  # Third parth authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
+    'taggit'
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,7 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'landingpage'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -156,6 +157,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'noreply.farmx'
 EMAIL_HOST_PASSWORD = 'farmxpass1234'
 EMAIL_USE_TLS = True
+
+# Other Apps settings
+TAGGIT_CASE_INSENSITIVE = True
 
 
 from google.oauth2 import service_account

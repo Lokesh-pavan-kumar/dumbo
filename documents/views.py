@@ -3,9 +3,24 @@ from .forms import UploadDocumentForm
 import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
+from . import utils
 
 
 # Create your views here.
+def get_doc_tags(doc_name: str):
+    # doc_name := documents/{name}.ext
+    dtype = doc_name.split('.')[-1]
+    # gs://dumbo-document-storage/documents/Dark.png
+    bucket_name = 'dumbo-document-storage'
+    uri = f'gs://{bucket_name}/{doc_name}'
+    dest_uri = f'gs://{bucket_name}/tags/ReturnedTags'
+    if dtype in ['jpg', 'jpeg', 'png']:
+        tags = utils.get_tags(uri, dest_uri, 'image')
+    else:
+        tags = utils.get_tags(uri, dest_uri, 'document')
+    return tags
+
+
 def my_documents(request):
     form = UploadDocumentForm()
     if request.method == 'POST':
@@ -13,6 +28,9 @@ def my_documents(request):
         if form.is_valid():
             doc_object = form.save(commit=False)
             doc_object.owner = request.user
+            doc_object.save()
+            tags = get_doc_tags(doc_object.path.name)
+            doc_object.tags.add(*tags)
             doc_object.save()
             return redirect('landingpage')
     context = {'form': form, 'documents': Document.objects.all()}
