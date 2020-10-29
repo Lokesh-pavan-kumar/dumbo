@@ -4,6 +4,7 @@ from google.cloud import storage
 import re
 import json
 from google.cloud import language_v1
+from dumbo.settings import BASE_DIR
 
 
 def from_document(source_uri: str, destination_uri: str):
@@ -55,8 +56,6 @@ def from_document(source_uri: str, destination_uri: str):
 
 
 def extract_text(from_: str = 'remote', dtype: str = 'image', location: str = None, destination_uri: str = None):
-    if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'credential.json'
     client = vision.ImageAnnotatorClient()  # Initialize a vision client
     if dtype == 'image':
         # We perform `TEXT_DETECTION`
@@ -138,7 +137,7 @@ def split_labels(categories):
 
 def get_tags(source_uri: str, dest_uri: str, dtype: str):
     if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'credential.json'
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'credential.json')
     if dtype == 'image':
         ret_text = extract_text('remote', dtype, source_uri, dest_uri)
     else:
@@ -154,3 +153,9 @@ def get_tags(source_uri: str, dest_uri: str, dtype: str):
     categories = list(set(split_labels(categories)))
     tags = categories + entities
     return ', '.join(tags)
+
+
+src = 'gs://dumbo-document-storage/documents/Group44_ML_Assignment2_report.pdf'
+dst = 'gs://dumbo-document-storage/tags/ReportTags'
+
+print(get_tags(src, dst, 'pdf'))
