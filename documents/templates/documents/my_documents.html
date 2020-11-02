@@ -1,3 +1,116 @@
+{% extends 'documents/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %} My Documents {% endblock %}
+{% block content %}
+    <style>
+        .column {
+            text-align:center;
+            float: left;
+            width: 20%;
+            background-color: #f2f2f2;
+            border-radius: 15px;
+        }
+    .down-row{
+        width: 30%;
+        float: left;
+    }
+    .column-d{
+        text-align:center;
+        float: left;
+        width: 40%;
+        background-color: #f2f2f2;
+        border-radius: 15px;
+    }
+    </style>
+    <style>
+    @media screen and (max-width: 600px) {
+        .column {
+        width: 50%;
+        display: inline-block;
+            float: none;
+        margin-bottom: 20px;
+  }
+        .column-d {
+            width: 30%;
+            float: none;
+            display: inline-block;
+
+        margin-bottom: 20px;
+  }
+        .down-row {
+            width: 100%;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+        .up-row {
+            overflow-y: hidden;
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+}
+    </style>
+
+    <div class=" main pt-2 pb-0" >
+        <div class="container-fluid up-row example">
+            <h3 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Public Documents</h3>
+            {% for document in documents %}
+                <div class="container column p-0 m-3 shadow-lg" >
+                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 15px">
+                    <div class="container-fluid">
+                        <h2 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px">{{ document.name }}
+                            <i style="float: right" class=" fas fa-ellipsis-v"></i><i style="float: right;" class="pr-3 fas fa-globe-americas"></i></h2>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="container-fluid ">
+            <div class="container-fluid py-3 mx-3 down-row example">
+                <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Important Documents</h4>
+                {% for document in documents %}
+                    <div class="container column-d p-0 m-2 shadow-lg" >
+                        <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
+                        <div class="container-fluid">
+                            <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}
+                                <i style="float: right" class=" fas fa-ellipsis-v"></i><i style="float: right;" class=" pr-3 fas fa-star"></i></h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+             <div class="container-fluid py-3 mx-3 down-row example">
+                <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Recently Uploaded</h4>
+                {% for document in documents %}
+                    <div class="container column-d p-0 m-2 shadow-lg" >
+                        <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
+                        <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
+                    </div>
+                {% endfor %}
+            </div>
+             <div class="container-fluid py-3 mx-3 down-row example" >
+                <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Mostly viewed</h4>
+                {% for document in documents %}
+                    <div class="container column-d p-0 m-2 shadow-lg" >
+                        <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
+                        <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

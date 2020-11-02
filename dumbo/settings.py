@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     'social_django',  # Third parth authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
-    'taggit'
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -160,7 +160,6 @@ EMAIL_USE_TLS = True
 
 # Other Apps settings
 TAGGIT_CASE_INSENSITIVE = True
-
 
 from google.oauth2 import service_account
 

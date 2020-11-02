@@ -30,10 +30,16 @@ def my_documents(request):
             doc_object.owner = request.user
             doc_object.save()
             tags = get_doc_tags(doc_object.path.name)
-            doc_object.tags.add(*tags)
-            doc_object.save()
-            return redirect('landingpage')
-    context = {'form': form, 'documents': Document.objects.all()}
+            print(tags)
+            if tags is not None:
+                doc_object.tags.add(*tags)
+                doc_object.save()
+            return redirect('my_documents')
+    context = {'form': form, 'documents': Document.objects.all()[:4],
+               'public_documents': Document.objects.filter(is_public=True),
+               'important_documents': Document.objects.filter(is_important=True),
+               'common_tags': Document.tags.most_common()[:10]}
+
     return render(request, 'documents/my_documents.html', context)
 
 

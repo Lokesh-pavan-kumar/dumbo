@@ -149,6 +149,8 @@ def get_tags(source_uri: str, dest_uri: str, dtype: str):
             bucket = storage_client.bucket('dumbo-document-storage')
             blob = bucket.blob(blob_name)
             blob.delete()
+    if len(ret_text) <= 100:
+        return
     categories, entities = classify(ret_text)
     categories = list(set(split_labels(categories)))
     tags = categories + entities
