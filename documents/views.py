@@ -4,6 +4,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
 from . import utils
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -21,6 +22,7 @@ def get_doc_tags(doc_name: str):
     return tags
 
 
+@login_required(login_url='/user/login')
 def my_documents(request):
     form = UploadDocumentForm()
     if request.method == 'POST':
