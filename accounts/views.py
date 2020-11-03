@@ -53,7 +53,7 @@ def login_view(request):
             # their email and username since for a user both are unique
             # and can be used to identified the user
             login(request, user_object, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('landingpage')
+            return redirect('my_documents')
     else:
         form = DumboUserLoginForm()
     return render(request, 'accounts/login.html', {'form': form})
