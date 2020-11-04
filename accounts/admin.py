@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
-from .models import DumboUser
+from .models import DumboUser,Profile
 
 
 # Register your models here.
@@ -84,4 +84,5 @@ class DumboUserAdmin(BaseUserAdmin):
 
 
 admin.site.register(DumboUser, DumboUserAdmin)
+admin.site.register(Profile)
 admin.site.unregister(Group)
