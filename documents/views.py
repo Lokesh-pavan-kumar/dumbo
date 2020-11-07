@@ -5,7 +5,12 @@ from requests.auth import HTTPBasicAuth
 from .models import Document
 from . import utils
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
+from django.views.generic.list import ListView
+from django.db.models import Q
+=======
 from accounts.models import Profile
+>>>>>>> main
 
 
 # Create your views here.
@@ -96,3 +101,26 @@ def download_file(api_key: str, target_file_id: int, name: str, format_: str = '
             print('File Downloaded and Saved')
     except IOError:
         print('Error')
+
+
+class SearchResultsView(ListView):
+    model = Document
+    template_name = 'documents/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+
+        query = query.split(" ")  # making a list of all the tags
+
+        condition = Q(tags__name__icontains=query[0])
+
+        for string in query[1:]:
+            condition |= Q(tags__name__icontains=string)  # the or condition for all the queried tags
+
+        condition &= Q(owner=self.request.user)  # the and condition for the username
+
+        object_list = Document.objects.filter(condition).distinct()
+
+        # print(object_list)
+
+        return object_list

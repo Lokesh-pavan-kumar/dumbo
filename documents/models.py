@@ -5,7 +5,6 @@ from taggit.managers import TaggableManager
 User = get_user_model()
 
 
-# Create your models here.
 class Document(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name of the document')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
