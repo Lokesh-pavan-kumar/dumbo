@@ -3,11 +3,13 @@
 *.pot
 *.pyc
 __pycache__
+**/__pycache__/**
 
 # Backup files # 
 *.bak 
 
 # If you are using PyCharm # 
+.idea
 .idea/**/workspace.xml 
 .idea/**/tasks.xml 
 .idea/dictionaries 
