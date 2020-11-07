@@ -1,0 +1,194 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<style>
+    .dumboIcon {
+        position: absolute;
+        width: 238px;
+        height: 106px;
+        left: -44px;
+        top: -35px;
+
+        backdrop-filter: blur(100px);
+        border-radius: 56px;
+    }
+    @font-face {
+        font-family: Montserrat-Medium;
+        src: url("Montserrat-Medium.ttf");
+    }
+
+.progress {
+  width: 200px;
+  height: 200px;
+  background: none;
+  position: relative;
+
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 15px solid #eeeeee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress>span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 15px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
+</style>
+
+<div class="container-fluid">
+    <div class="dumboIcon" style="background: #162B41;"><! dumbo icon and dumbo text>
+        <h2 style="font-family: Montserrat-Medium; width: 121px;height: 37px;left: 61px;top: 47px;color: #FFFFFF;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+
+  <button id ="" class="navbar-toggler ml-auto" type="button" data-toggle="collapse"  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" style="color:#162B41;"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav  ml-auto">
+      <li class="nav-item px-3 ml-auto">
+        <a class="nav-link text-dark" style="font-size: 26px;font-family: Montserrat-Medium;" href="{% url "my_documents" %}">My Documents</a>
+      </li>
+
+        <li class="nav-item px-3 pt-0 ml-auto">
+            <a class="nav-link pt-0" href="#"><img class="rounded-circle img-fluid" style="height: 50px; width: 50px" src="{{ profile.image.url }}" alt="profile pic"></a>
+        </li>
+    </ul>
+  </div>
+</nav>
+</div>
+
+<div class="container-fluid row">
+    <div class="col-lg-5 p-5" style="height: 100%">
+        {% if messages %}
+    <ul class="messages" style="z-index: -1;float:left;">
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        {% endfor %}
+    </ul> 
+    {% endif %}
+        <img class="img-fluid ml-auto" style="border-radius: 10px; height: 300px;width: 400px" src="{{ profile.image.url }}" alt="profile pic">
+         <div class="progress px-5 mt-5 mx-5 " data-value='80'>
+          <span class="progress-left">
+                        <span style="border-color: #190C69" class="progress-bar"></span>
+          </span>
+          <span class="progress-right">
+                        <span style="border-color: #190C69" class="progress-bar"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="lead text-center">Remaining <br> ##GB/###GB</div>
+          </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock content %}
+
+</div>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+$(function() {
+
+  $(".progress").each(function() {
+
+    var value = $(this).attr('data-value');
+    var left = $(this).find('.progress-left .progress-bar');
+    var right = $(this).find('.progress-right .progress-bar');
+
+    if (value > 0) {
+      if (value <= 50) {
+        right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+      } else {
+        right.css('transform', 'rotate(180deg)')
+        left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+      }
+    }
+
+  })
+
+  function percentageToDegrees(percentage) {
+
+    return percentage / 100 * 360
+
+  }
+
+});
+</script>
+</body>
+</html>

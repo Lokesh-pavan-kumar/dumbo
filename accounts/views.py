@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .admin import DumboUserCreationForm
-from .forms import DumboUserLoginForm, UserUpdateForm ,ProfileUpdateForm
+from .forms import DumboUserLoginForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import EmailMessage
@@ -10,10 +10,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import DumboUser
+from .models import DumboUser, Profile
 from django.utils.encoding import force_bytes, force_text
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -79,6 +80,7 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
+
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -97,18 +99,21 @@ def profile(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'profile': Profile.objects.get(user=request.user),
+        'form': PasswordChangeForm(user=request.user)
     }
 
     return render(request, 'accounts/profile.html', context)
 
-@login_required(login_url = '/user/login')
+
+@login_required(login_url='/user/login')
 def user_change_pass(request):
     if request.method == "POST":
-        fm = PasswordChangeForm(user = request.user , data = request.POST)
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
         if fm.is_valid():
             fm.save()
-            return redirect('/user/profile')
-    else:
-        fm = PasswordChangeForm(user = request.user)
-    return render(request , 'accounts/changepass.html', {'form':fm})
+            return redirect("/user/login")
+        else:
+            messages.warning(request, f'an error occurred try again')
+    return redirect('profile')
