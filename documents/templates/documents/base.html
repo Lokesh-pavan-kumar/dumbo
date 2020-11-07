@@ -35,7 +35,7 @@
     }
 
     .search_input{
-    color: white;
+    color: black;
     border: 0;
     outline: 0;
     background: none;
@@ -181,14 +181,13 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav px-3 ml-auto">
         <li class="nav-item  ml-auto">
+             <form action="{% url 'search_results' %}" method="get">
              <div class="searchbar mr-5">
-                 <input class="search_input" type="text" name="" placeholder="Search...">
-                 <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                        <input name="q" class="search_input" type="text" placeholder="Search...">
+                        <a href="#" onclick="$(this).closest('form').submit()" class="search_icon"><i class="fas fa-search"></i></a>
              </div>
+             </form>
         </li>
-            <form action="{% url 'search_results' %}" method="get">
-      <input name="q" type="text" placeholder="Search...">
-  </form>
       <li class="nav-item px-3 ml-auto">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid"style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>

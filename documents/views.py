@@ -97,6 +97,7 @@ def download_file(api_key: str, target_file_id: int, name: str, format_: str = '
     except IOError:
         print('Error')
 
+
 class SearchResultsView(ListView):
     model = Document
     template_name = 'documents/search_results.html'
@@ -104,14 +105,14 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
 
-        query = query.split(" ") # making a list of all the tags
+        query = query.split(" ")  # making a list of all the tags
 
-        condition = Q(tags__name__icontains=query[0]) 
-        
+        condition = Q(tags__name__icontains=query[0])
+
         for string in query[1:]:
-            condition |= Q(tags__name__icontains=string) # the or condition for all the queried tags
-        
-        condition &= Q(owner=self.request.user) # the and condition for the username
+            condition |= Q(tags__name__icontains=string)  # the or condition for all the queried tags
+
+        condition &= Q(owner=self.request.user)  # the and condition for the username
 
         object_list = Document.objects.filter(condition).distinct()
 
