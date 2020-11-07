@@ -186,6 +186,9 @@
                  <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
              </div>
         </li>
+            <form action="{% url 'search_results' %}" method="get">
+      <input name="q" type="text" placeholder="Search...">
+  </form>
       <li class="nav-item px-3 ml-auto">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid"style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
@@ -197,6 +200,7 @@
         </li>
     </ul>
   </div>
+
 </nav>
 </div>
     <div class="sidenav side-shadow">
