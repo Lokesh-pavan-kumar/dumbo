@@ -5,12 +5,10 @@ from requests.auth import HTTPBasicAuth
 from .models import Document
 from . import utils
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
 from django.views.generic.list import ListView
 from django.db.models import Q
-=======
 from accounts.models import Profile
->>>>>>> main
+
 
 
 # Create your views here.
