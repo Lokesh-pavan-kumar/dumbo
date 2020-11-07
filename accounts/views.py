@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .admin import DumboUserCreationForm
-from .forms import DumboUserLoginForm
+from .forms import DumboUserLoginForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -9,8 +10,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import DumboUser
+from .models import DumboUser, Profile
 from django.utils.encoding import force_bytes, force_text
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -75,3 +79,41 @@ def activate(request, uidb64, token):
         return render(request, 'accounts/email_confirm.html')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')
+
+    else:
+        u_form = UserUpdateForm()
+        p_form = ProfileUpdateForm()
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+        'profile': Profile.objects.get(user=request.user),
+        'form': PasswordChangeForm(user=request.user)
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
+
+@login_required(login_url='/user/login')
+def user_change_pass(request):
+    if request.method == "POST":
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+            fm.save()
+            return redirect("/user/login")
+        else:
+            messages.warning(request, f'an error occurred try again')
+    return redirect('profile')

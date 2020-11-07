@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from .models import Profile,DumboUser
 
 
 User = get_user_model()
@@ -31,3 +32,15 @@ class DumboUserLoginForm(forms.Form):
         self.cleaned_data['user_object'] = user_object  # Add the user_object to the cleaned_data
         return super(DumboUserLoginForm, self).clean()
 
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = DumboUser
+        fields = ['fullname', 'phone_number']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'twitter_link' ]

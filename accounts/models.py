@@ -59,3 +59,20 @@ class DumboUser(AbstractBaseUser):
         # Does the user have permission to view a particular app?
         # Always true
         return True
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(DumboUser, on_delete=models.CASCADE)
+    image = models.ImageField(default='https://storage.googleapis.com/dumbo-document-storage/profile_pics/default.png',
+                              upload_to='profile_pics')
+    twitter_link = models.URLField(max_length=200, default='', null=True)
+    total_docs = models.IntegerField(default=None, null=True)
+    in_trash = models.IntegerField(default=None, null=True)
+    public_docs = models.IntegerField(default=None, null=True)
+    total_space = models.FloatField(default=None, null=True)
+    used_space = models.FloatField(default=None, null=True)
+    important_docs = models.IntegerField(default=None, null=True)
+    important_tags = models.CharField(max_length=100, default=None, null=True)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'

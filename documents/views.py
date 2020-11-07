@@ -5,8 +5,12 @@ from requests.auth import HTTPBasicAuth
 from .models import Document
 from . import utils
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 from django.views.generic.list import ListView
 from django.db.models import Q
+=======
+from accounts.models import Profile
+>>>>>>> main
 
 
 # Create your views here.
@@ -42,7 +46,8 @@ def my_documents(request):
     context = {'form': form, 'documents': Document.objects.all()[:4],
                'public_documents': Document.objects.filter(is_public=True),
                'important_documents': Document.objects.filter(is_important=True),
-               'common_tags': Document.tags.most_common()[:10]}
+               'common_tags': Document.tags.most_common()[:10],
+               'profile': Profile.objects.get(user=request.user)}
 
     return render(request, 'documents/my_documents.html', context)
 

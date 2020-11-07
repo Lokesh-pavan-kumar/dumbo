@@ -1,0 +1,89 @@
+{% extends "accounts/profile_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="col-lg-7  pt-5 " style="height: 100%">
+        <h3 class="pb-4" style="font-family: Montserrat-Medium;font-size: 40px">{{ profile.user.username }} <button type="submit" form="update" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 56px" class="btn px-5 float-right">Update</button></h3>
+        <div class="container-fluid row ">
+            <div class="col text-left">
+                <small style="font-family: Montserrat-Medium;font-size: 28px;color: rgba(0,0,0,0.5)">Total Documents</small><br>
+                <small style="font-family: Montserrat-Medium;font-size: 28px;color: rgba(0,0,0,0.5)">Public Documents</small><br>
+                <small style="font-family: Montserrat-Medium;font-size: 28px;color: rgba(0,0,0,0.5)">In Trash</small><br>
+            </div>
+            <div class="col-sm-1 text-right">
+                <small style="font-family: Montserrat-Medium;font-size: 32px;">56</small><br>
+                <small style="font-family: Montserrat-Medium;font-size: 32px;">25</small><br>
+                <small style="font-family: Montserrat-Medium;font-size: 32px;">16</small><br>
+            </div>
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link text-center"style="width: 33%;font-family: Montserrat-Medium;font-size: 22px;color:black" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><img class="img-fluid px-2"
+                        src="icon.png" alt="">Statistics</a>
+                <a class="nav-item nav-link active text-center" style="width: 33%;font-family: Montserrat-Medium;font-size: 22px;color: black" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><img class="img-fluid px-2"
+                        src="usericon.png" alt="">About</a>
+                <a class="nav-item nav-link text-center" style="width: 33%;font-family: Montserrat-Medium;font-size: 22px;color: black" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false"><img class="img-fluid px-2"
+                        src="lock.png" alt="">Security</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+            <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                 <div class="container-fluid ">
+                <form class="" method="post" id="update" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <h4 class="pt-4" style="font-family: Montserrat-Medium;font-size:24px;color: rgba(0,0,0,0.5)">Personal Info</h4>
+                <div class="form-group row" style="font-family: Montserrat-Medium;font-size:22px">
+                    <label for="staicUsername" class="col-sm-2 col-form-lable pt-2">Fullname</label>
+                    <div class="col-sm-6 mx-auto">
+                        {% render_field u_form.fullname value=profile.user.fullname style="border:none" %}
+                    </div>
+                </div>
+                <div class="form-group row" style="font-family: Montserrat-Medium;font-size:22px">
+                    <label for="staicUsername" class="col-sm-2 col-form-lable pt-2">Profile pic</label>
+                    <div class="col-sm-6 mx-auto">
+                        {% render_field p_form.image type="file" name="image" value=profile.image.url %}
+                    </div>
+                </div>
+                <h4 class="pt-2" style="font-family: Montserrat-Medium;font-size:24px;color: rgba(0,0,0,0.5)">Contact Info</h4>
+                <div class="form-group row" style="font-family: Montserrat-Medium;font-size:22px">
+                        <label for="Mobile" class="col-sm-2 col-form-label">Mobile</label>
+                        <div class="col-sm-6 mx-auto">
+                            {% render_field u_form.phone_number value=profile.user.phone_number style="border:none" %}
+                        </div>
+                </div>
+                <div class="form-group row" style="font-family: Montserrat-Medium;font-size:22px">
+                    <label for="twitter" class="col-sm-2 col-form-lable pt-2">Twitter</label>
+                    <div class="col-sm-6 mx-auto">
+                        {% render_field p_form.twitter_link value=profile.twitter_link style="border:none"%}
+                    </div>
+                </div>
+            </form>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <h4 class="pt-4" style="font-family: Montserrat-Medium;font-size:24px;color: rgba(0,0,0,0.5)">Reset Password</h4>
+                <form action="/user/changepass/" method="post" novalidate id="Update">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for fm in form %}
+                        <div class="form-group row pt-3" style="font-family: {% static "Montserrat-Medium" %};font-size:20px">
+                            <label for="staicUsername" class="col-sm-6 col-form-lable pt-2">{{ fm.label}}</label>
+                            <div class="col-sm-6 ml-auto">
+                                {% render_field fm %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 56px" class="btn px-5 float-right">Reset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

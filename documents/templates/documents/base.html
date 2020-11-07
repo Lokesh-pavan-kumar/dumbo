@@ -192,7 +192,7 @@
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid"style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
       <li class="nav-item px-3 ml-auto">
-        <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="#"><img style="height: 40px" class="img-fluid pr-2"src="{% static "accounts/user pic.png" %}" alt="">Mr/Mrs Username</a>
+        <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url "profile" %}"><img style="height: 40px" class="img-fluid pr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
       </li>
         <li class="nav-item px-3 ml-auto">
             <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
