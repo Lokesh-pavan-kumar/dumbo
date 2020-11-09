@@ -10,7 +10,6 @@ from django.db.models import Q
 from accounts.models import Profile
 
 
-
 # Create your views here.
 def get_doc_tags(doc_name: str):
     # doc_name := documents/{name}.ext
@@ -46,7 +45,7 @@ def my_documents(request):
                'important_documents': Document.objects.filter(is_important=True),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user)}
-
+    print(context['common_tags'], type(context['common_tags']))
     return render(request, 'documents/my_documents.html', context)
 
 
@@ -105,6 +104,15 @@ class SearchResultsView(ListView):
     model = Document
     template_name = 'documents/search_results.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = UploadDocumentForm()
+        context['common_tags'] = Document.tags.most_common()[:10],
+        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['title'] = 'search'
+
+        return context
+
     def get_queryset(self):
         query = self.request.GET.get('q')
 
@@ -118,7 +126,5 @@ class SearchResultsView(ListView):
         condition &= Q(owner=self.request.user)  # the and condition for the username
 
         object_list = Document.objects.filter(condition).distinct()
-
-        # print(object_list)
 
         return object_list

@@ -24,7 +24,7 @@
     }
     </style>
     <style>
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
         .column {
         width: 50%;
         display: inline-block;
@@ -54,46 +54,66 @@
 
     <div class=" main pt-2 pb-0" >
         <div class="container-fluid up-row example">
-            <h3 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Public Documents</h3>
+            <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Public Documents</h4>
             {% for document in documents %}
-                <div class="container column p-0 m-3 shadow-lg" >
+                <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
                     <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 15px">
                     <div class="container-fluid">
-                        <h2 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px">{{ document.name }}
-                            <i style="float: right" class=" fas fa-ellipsis-v"></i><i style="float: right;" class="pr-3 fas fa-globe-americas"></i></h2>
+                        <h2 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">{{ document.name }}
+                            <i style="float: right;" class="pr-3 fas fa-globe-americas"></i></h2>
                     </div>
-                </div>
+                </div></a>
+                <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
             {% endfor %}
         </div>
         <div class="container-fluid ">
             <div class="container-fluid py-3 mx-3 down-row example">
                 <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Important Documents</h4>
                 {% for document in documents %}
-                    <div class="container column-d p-0 m-2 shadow-lg" >
+                    <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
                         <div class="container-fluid">
                             <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}
-                                <i style="float: right" class=" fas fa-ellipsis-v"></i><i style="float: right;" class=" pr-3 fas fa-star"></i></h2>
+                                <i style="float: right;" class=" pr-3 fas fa-star"></i></h2>
                         </div>
-                    </div>
+                    </div></a>
+                    <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
                 {% endfor %}
             </div>
              <div class="container-fluid py-3 mx-3 down-row example">
                 <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Recently Uploaded</h4>
                 {% for document in documents %}
-                    <div class="container column-d p-0 m-2 shadow-lg" >
+                    <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
                         <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
-                    </div>
+                    </div></a>
+                    <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
                 {% endfor %}
             </div>
              <div class="container-fluid py-3 mx-3 down-row example" >
                 <h4 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Mostly viewed</h4>
                 {% for document in documents %}
-                    <div class="container column-d p-0 m-2 shadow-lg" >
+                    <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 15px">
                         <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
-                    </div>
+                    </div></a>
+                    <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
                 {% endfor %}
             </div>
 
@@ -111,20 +131,3 @@
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>my_documents</title>
-</head>
-<body>
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">upload doc</button>
-</form>
-{% for document in documents %}
-    <a href="{{ document.path.url }}">{{ document.name }}</a>
-{% endfor %}
-</body>
-</html>

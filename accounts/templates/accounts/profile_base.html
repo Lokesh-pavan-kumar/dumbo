@@ -135,8 +135,9 @@
         {% endfor %}
     </ul> 
     {% endif %}
-        <img class="img-fluid ml-auto" style="border-radius: 10px; height: 300px;width: 400px" src="{{ profile.image.url }}" alt="profile pic">
-         <div class="progress px-5 mt-5 mx-5 " data-value='80'>
+        <img class="img-fluid mx-5" style="border-radius: 10px; height: 300px;width: 300px" src="{{ profile.image.url }}" alt="profile pic">
+        <div class="containe mx-5">
+             <div class="progress my-5 ml-5" data-value='80'>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
@@ -146,6 +147,7 @@
           <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
             <div class="lead text-center">Remaining <br> ##GB/###GB</div>
           </div>
+        </div>
         </div>
     </div>
     {% block content %}
