@@ -14,10 +14,11 @@ from .models import DumboUser, Profile
 from django.utils.encoding import force_bytes, force_text
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from .decorators import redirect_user
 
 
 # Create your views here.
+@redirect_user
 def register(request):  # This view is used to register new users into the application
     if request.method == 'POST':
         form = DumboUserCreationForm(request.POST)  # The form used for saving/creating the new users
@@ -46,7 +47,7 @@ def register(request):  # This view is used to register new users into the appli
         form = DumboUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
 
-
+@redirect_user
 def login_view(request):
     if request.method == 'POST':
         form = DumboUserLoginForm(request.POST)  # The form used to authenticate our users

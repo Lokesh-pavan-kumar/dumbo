@@ -6,21 +6,11 @@
         .column {
             text-align:center;
             float: left;
-            width: 20%;
+            width: 15%;
             background-color: #f2f2f2;
-            border-radius: 15px;
+            border-radius: 5px;
         }
-    .down-row{
-        width: 30%;
-        float: left;
-    }
-    .column-d{
-        text-align:center;
-        float: left;
-        width: 40%;
-        background-color: #f2f2f2;
-        border-radius: 15px;
-    }
+
     </style>
     <style>
     @media screen and (max-width: 700px) {
@@ -30,19 +20,7 @@
             float: none;
         margin-bottom: 20px;
   }
-        .column-d {
-            width: 30%;
-            float: none;
-            display: inline-block;
 
-        margin-bottom: 20px;
-  }
-        .down-row {
-            width: 100%;
-            overflow-y: hidden;
-            overflow-x: scroll;
-            white-space: nowrap;
-        }
         .up-row {
             overflow-y: hidden;
             overflow-x: scroll;
@@ -50,20 +28,21 @@
         }
 }
     </style>
-    <div class="main pt-2 pb-0">
-        <div class="container-fluid up-row example">
-            <h3 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Search Results</h3>
+    <div class="main pt-5 pb-0">
+        <div class="container-fluid pt-5 up-row example">
+            <h5 class="pl-3" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Search Results</h5>
              {% for document in object_list %}
                 <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
-                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 15px">
+                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
                     <div class="container-fluid">
-                        <h2 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px">{{ document.name }}
+                        <h5 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">{{ document.name }}
                             {% if document.is_public %}
-                            <i style="float: right;" class="pr-3 fas fa-globe-americas"></i></h2>
+                            <i style="float: right;" class="pr-3 fas fa-globe-americas"></i>
                             {% endif %}
                             {% if document.is_important %}
-                                <i style="float: right;" class=" pr-3 fas fa-star"></i></h2>
+                                <i style="float: right;" class=" pr-3 fas fa-star"></i>
                             {% endif %}
+                        </h5>
                     </div>
                 </div></a>
                 <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
