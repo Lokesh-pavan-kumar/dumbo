@@ -1,21 +1,56 @@
+{% extends "documents/base.html" %}
+{% load static %}
+{% block title %}search result{% endblock %}
+{% block content %}
+    <style>
+        .column {
+            text-align:center;
+            float: left;
+            width: 15%;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>
-		Search Results
-	</title>
-</head>
-<body>
-<h1>Search Results</h1>
+    </style>
+    <style>
+    @media screen and (max-width: 700px) {
+        .column {
+        width: 50%;
+        display: inline-block;
+            float: none;
+        margin-bottom: 20px;
+  }
 
-	<ul>
-	  {% for document in object_list %}
-	    <li>
-	      {{ document.name }}, {{ document.owner }}
-	    </li>
-	  {% endfor %}
-	</ul>
-
-</body>
-</html>
+        .up-row {
+            overflow-y: hidden;
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+}
+    </style>
+    <div class="main pt-5 pb-0">
+        <div class="container-fluid pt-5 up-row example">
+            <h5 class="pl-3" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Search Results</h5>
+             {% for document in object_list %}
+                <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
+                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
+                    <div class="container-fluid">
+                        <h5 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">{{ document.name }}
+                            {% if document.is_public %}
+                            <i style="float: right;" class="pr-3 fas fa-globe-americas"></i>
+                            {% endif %}
+                            {% if document.is_important %}
+                                <i style="float: right;" class=" pr-3 fas fa-star"></i>
+                            {% endif %}
+                        </h5>
+                    </div>
+                </div></a>
+                <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -23,71 +23,14 @@
     }
     @font-face {
         font-family: Montserrat-Medium;
-        src: url("Montserrat-Medium.ttf");
+        src: {% static "accounts/Montserrat-Medium.ttf" %};
     }
-     .searchbar{
-    margin-bottom: auto;
-    margin-top: auto;
-    height: 60px;
-    background-color: #E0D7D7;
-    border-radius: 30px;
-    padding: 10px;
-    }
-
-    .search_input{
-    color: black;
-    border: 0;
-    outline: 0;
-    background: none;
-    width: 0;
-    caret-color:transparent;
-    line-height: 40px;
-    transition: width 0.4s linear;
-    }
-
-    .searchbar:hover > .search_input{
-    padding: 0 10px;
-    width: 450px;
-    caret-color:black;
-    transition: width 0.4s linear;
-    }
-
-    .searchbar:hover > .search_icon{
-    background: white;
-    color: #E0D7D7;
-    }
-
-    .search_icon {
-        height: 40px;
-        width: 40px;
-        float: right;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        color: #162B41;
-    }
-
-@media screen and (max-width: 600px) {
-
-    .searchbar:hover > .search_input{
-    padding: 10 10px;
-    width: 200px;
-    caret-color:black;
-    transition: width 0.4s linear;
-    }
-
-    .pading {
-        padding-top: 30px;
-    }
-
-}
 
 
 </style>
 <style>
     .shadow-lg {
-          box-shadow: 1px 4px 2px 0 rgba(0, 0, 0, 0.2), 1px 4px 4px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0px 2px 0px 0 rgba(0, 0, 0, 0), 0px 2px 0px 0 rgba(0, 0, 0, 0.1);
     }
     .side-shadow {
           box-shadow: 1px 0px 2px 0 rgba(0, 0, 0, 0.2), 1px 0px 4px 0 rgba(0, 0, 0, 0.19);
@@ -111,7 +54,7 @@
   /* Stay on top */
     top: 0px;
     z-index: 1;
-  background-color: #f2f2f2; /* Black */
+  background-color: #ffffff; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 20px;
 }
@@ -158,7 +101,7 @@
     .sidenav a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 14px;
   color: #818181;
   display: block;
   border: none;
@@ -169,7 +112,7 @@
   outline: none;
 }
 </style>
-<div class="container-fluid border-bottom shadow-lg" style="top:0;left:0;">
+<div class="container-fluid bg-light border-bottom shadow-lg fixed-top" style="top:0;left:0;">
     <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
         <a href="{% url "my_documents" %}"><h2 style="font-family: Montserrat-Medium; width: 121px;height: 37px;left: 61px;top: 47px;color: #ffffff;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2></a>
     </div>
@@ -180,21 +123,19 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav px-3 ml-auto">
-        <li class="nav-item  ml-auto">
-             <form action="{% url 'search_results' %}" method="get">
-             <div class="searchbar mr-5">
-                        <input name="q" class="search_input" type="text" placeholder="Search...">
-                        <a href="#" onclick="$(this).closest('form').submit()" class="search_icon"><i class="fas fa-search"></i></a>
-             </div>
+        <li class="nav-item pt-3 mr-5 pr-5">
+             <form  class="form-inline" action="{% url 'search_results' %}" method="get" style="width: 500px">
+                  <input class="form-control mr-sm-2" style="width: 400px" name="q" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
              </form>
         </li>
-      <li class="nav-item px-3 ml-auto">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid"style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
+      <li class="nav-item px-3 pt-1  ml-auto">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid "style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
-      <li class="nav-item px-3 ml-auto">
-        <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url "profile" %}"><img style="height: 40px" class="img-fluid pr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
+      <li class="nav-item px-3 pt-1 ml-auto">
+        <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url "profile" %}"><img style="height: 40px" class="img-fluid rounded-circle mr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
       </li>
-        <li class="nav-item px-3 ml-auto">
+        <li class="nav-item px-3 pt-2 ml-auto">
             <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
     </ul>
@@ -210,9 +151,17 @@
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-container">
-              {% for tag in common_tags %}
-                  <a href="#" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 16px">{{ tag }}</a>
-              {% endfor %}
+              <form action="{% url 'search_results' %}" method="get">
+                   {% for tag in common_tags %}
+                        {% if title == 'search' %}
+                            {% for a in tag %}
+                                <label for=""><input type="checkbox" value="{{ a }}">{{ a }}</label>
+                            {% endfor %}
+                        {% else %}
+                            <label for=""><input type="checkbox" value="{{ tag }}">{{ tag }}</label>
+                        {% endif %}
+                    {% endfor %}
+              </form>
           </div>
         <button class="dropdown-btn">Important Tags
             <i class="fa fa-caret-down"></i>
@@ -327,6 +276,35 @@ for (i = 0; i < dropdown.length; i++) {
   });
 }
 
+</script>
+<script>
+    $('.main').on('contextmenu', function(e) {
+  var top = e.pageY - 10;
+  var left = e.pageX - 90;
+  $("#context-menu").css({
+    display: "block",
+    top: top,
+    left: left
+  }).addClass("show");
+  return false; //blocks default Webbrowser right click menu
+}).on("click", function() {
+  $("#context-menu").removeClass("show").hide();
+});
+
+$("#context-menu a").on("click", function() {
+  $(this).parent().removeClass("show").hide();
+});
+
+</script>
+<script>
+    jQuery(function($) {
+        $('#golink').click(function () {
+            return false;
+        }).dblclick(function () {
+            window.location = this.href;
+            return false;
+        });
+    });
 </script>
 </body>
 </html>
