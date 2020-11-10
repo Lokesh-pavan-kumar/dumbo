@@ -5,31 +5,31 @@
 {% block content %}
     <div class="container-fluid row" style="left: 0;top: 0;position: absolute;z-index: -1; height: 100%; width: 100%">
     <div class="col-lg-6 container-fluid pt-5 shadow-lg" style="background: #162B41;border-radius: 10px;left: -15px;height: 100%;width: 100%">
-        <h1 class="text-center pt-4" style="color: white;font-family: Montserrat-Medium;font-size: 100px;">Login</h1>
+        <h1 class="text-center pt-4" style="color: white;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 100px;">Login</h1>
         <div class="container-fluid mt-4 mb-4">
             <img src="{% static "accounts/undraw_Login_re_4vu2 1.svg" %}" class="img-fluid" alt="login svg">
         </div>
     </div>
     <div class="col-lg-6 pt-5">
         <div class="container pt-5 px-5">
-            <h2 class="text-center pb-3" style="font-family: Montserrat-Medium;font-size: 42px;">Ready to Login?</h2>
+            <h2 class="text-center pb-3" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 42px;">Ready to Login?</h2>
             <form  method="post">
                 <div class="form-group">
                     {% csrf_token %}
-                    <label for="" style="font-family: Montserrat-Medium;font-size:28px">USERNAME</label>
-                    {% render_field form.identifier type="username" class="form-control" placeholder="Enter Email/Username" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium"%}
-                    <label class="pt-5" for="exampleInputPassword1" style="font-family: Montserrat-Medium;font-size:28px">PASSWORD</label>
-                    {% render_field form.password type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);font-family: Montserrat-Medium" %}
-                    <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
+                    <label class="pb-2" for="" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size:28px">USERNAME</label>
+                    {% render_field form.identifier type="username" class="form-control" placeholder="Enter Email/Username" style="background-color: rgba(196,196,196, 0.5)" %}
+                    <label class="pt-5 pb-2" for="exampleInputPassword1" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size:28px">PASSWORD</label>
+                    {% render_field form.password type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" style="background-color: rgba(196,196,196, 0.5);" %}
+                    <small class="form-text text-muted text-center" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 18px;color: #0000EE"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
 
                     <div class="text-center py-3">
-                        <button type="submit" style="color: white;background-color: black;font-family: Montserrat-Medium;font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Login</button>
+                        <button type="submit" style="color: white;background-color: black;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 28px;border-radius: 15px" class="btn px-5 shadow-lg">Login</button>
                     </div>
 
-                    <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE"><a href="{% url "register" %}">Don’t have an account? Register now!</a></small>
+                    <small class="form-text text-muted text-center" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 18px;color: #0000EE"><a href="{% url "register" %}">Don’t have an account? Register now!</a></small>
                 </div>
             </form>
-                    <small class="form-text text-muted text-center" style="font-family: Montserrat-Medium;font-size: 18px;color: #0000EE">OR</small>
+                    <small class="form-text text-muted text-center" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 18px;color: #0000EE">OR</small>
 
                 <div class="row">
                     <div class="col">

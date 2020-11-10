@@ -22,7 +22,7 @@
         border-radius: 56px;
     }
     @font-face {
-        font-family: Montserrat-Medium;
+        font-family: {% static "accounts/ Montserrat-Medium.ttf" %};
         src: {% static "accounts/Montserrat-Medium.ttf" %};
     }
 
@@ -46,10 +46,120 @@
 }
 </style>
 <style>
+    html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000;
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+@font-face {
+    font-family: skids;
+    src: url(fonts/stonekids.ttf);
+
+}
+@font-face {
+  font-family: lol;
+  src: url(fonts/lol.tttf);
+}
+@@font-face {
+  font-family: reg;
+  src: url(fonts/reg.ttf);
+}
+hr {
+    display:block;
+    height:1px;
+    border:0;
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+
+}
+</style>
+<style>
 /* The sidebar menu */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 180px; /* Set the width of the sidebar */
+  width: 200px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   /* Stay on top */
     top: 0px;
@@ -75,7 +185,7 @@
 
 /* Style page content */
 .main {
-  margin-left: 180px; /* Same as the width of the sidebar */
+  margin-left: 200px; /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
 
@@ -112,9 +222,9 @@
   outline: none;
 }
 </style>
-<div class="container-fluid bg-light border-bottom shadow-lg fixed-top" style="top:0;left:0;">
+<div class="container-fluid border-bottom shadow-lg fixed-top" style="top:0;left:0;">
     <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
-        <a href="{% url "my_documents" %}"><h2 style="font-family: Montserrat-Medium; width: 121px;height: 37px;left: 61px;top: 47px;color: #ffffff;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2></a>
+        <a href="{% url "my_documents" %}"><h2 style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: #ffffff;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2></a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light pb-1">
 
@@ -122,30 +232,30 @@
     <span class="navbar-toggler-icon" style="color:#162B41;"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav px-3 ml-auto">
-        <li class="nav-item pt-3 mr-5 pr-5">
+    <ul class="navbar-nav px-3 pb-1 ml-auto">
+        <li class="nav-item pt-1 mr-5 pr-5">
              <form  class="form-inline" action="{% url 'search_results' %}" method="get" style="width: 500px">
                   <input class="form-control mr-sm-2" style="width: 400px" name="q" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-dark" type="submit">Search</button>
              </form>
         </li>
-      <li class="nav-item px-3 pt-1  ml-auto">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid "style="height: 40px" src="{% static "accounts/add file.png" %}" alt=""></a>
+      <li class="nav-item px-3   ml-auto">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid" style="height: 35px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
       <li class="nav-item px-3 pt-1 ml-auto">
-        <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url "profile" %}"><img style="height: 40px" class="img-fluid rounded-circle mr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
+        <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 25px" class="img-fluid rounded-circle mr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
       </li>
-        <li class="nav-item px-3 pt-2 ml-auto">
-            <a class="nav-link text-dark" style="font-size: 20px;font-family: Montserrat-Medium;" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        <li class="nav-item px-3 pt-1 ml-auto">
+            <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url 'logout' %}"><i class="fas fa-power-off pr-2"></i>Logout</a>
         </li>
     </ul>
   </div>
 
 </nav>
 </div>
-    <div class="sidenav side-shadow">
+    <div class="sidenav ">
         <div class="container pt-5 d-flex justify-content-center">
-            <h3 class="text-center pt-5 " style="font-size: 18px;font-family: Montserrat-Medium;"><i class="fas fa-filter" style="color: #162B41"></i> Filters</h3>
+            <h3 class="text-center pt-5 " style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};"><i class="fas fa-filter" style="color: #162B41"></i> Filters</h3>
         </div>
          <button class="dropdown-btn">Common Tags
             <i class="fa fa-caret-down"></i>
@@ -172,7 +282,7 @@
             <a href="#">Link 3</a>
           </div>
          <div class="pt-3 mb-5 d-flex justify-content-center">
-            <button class="btn btn-dark px-5" style="background-color: white;font-size: 18px;font-family: Montserrat-Medium;color: black">
+            <button class="btn btn-dark px-5" style="background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
                 <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
          </div>
     </div>
