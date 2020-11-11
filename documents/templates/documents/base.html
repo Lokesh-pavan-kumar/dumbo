@@ -242,8 +242,8 @@ input, select {
       <li class="nav-item px-3   ml-auto">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid" style="height: 35px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
-      <li class="nav-item px-3 pt-1 ml-auto">
-        <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 25px" class="img-fluid rounded-circle mr-2"src="{{ profile.image }}" alt="">{{ profile.user.username }}</a>
+      <li class="nav-item px-3  ml-auto">
+        <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 30px;width: 30px" class="img-fluid rounded-circle mr-2"src="{{ profile.image.url }}" alt="">{{ profile.user.username }}</a>
       </li>
         <li class="nav-item px-3 pt-1 ml-auto">
             <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url 'logout' %}"><i class="fas fa-power-off pr-2"></i>Logout</a>

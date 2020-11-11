@@ -35,7 +35,8 @@
                 <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
                     <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
                     <div class="container-fluid">
-                        <h5 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">{{ document.name }}
+                        <h5 class="text-center py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">
+                            <a href="{{ document.path.url }}" target="_blank" style="text-decoration: none">{{ document.name }}</a>
                             {% if document.is_public %}
                             <i style="float: right;" class="pr-3 fas fa-globe-americas"></i>
                             {% endif %}
