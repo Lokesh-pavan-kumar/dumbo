@@ -39,9 +39,9 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             return redirect('my_documents')
-    context = {'form': form, 'documents': Document.objects.all()[:4],
-               'public_documents': Document.objects.filter(is_public=True),
-               'important_documents': Document.objects.filter(is_important=True),
+    context = {'form': form, 'documents': Document.objects.filter(owner=request.user)[:4],
+               'public_documents': Document.objects.filter(is_public=True, owner=request.user),
+               'important_documents': Document.objects.filter(is_important=True, owner=request.user),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user)}
     return render(request, 'documents/my_documents.html', context)

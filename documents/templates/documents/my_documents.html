@@ -60,7 +60,8 @@
                 <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
                     <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
                     <div class="container-fluid">
-                        <h2 class="text-center pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">{{ document.name }}
+                        <h2 class="text-center py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">
+                            <a style="text-decoration: none" href="{{ document.path.url }}" target="_blank">{{ document.name }}</a>
                             <i style="float: right;" class="pr-3 fas fa-globe-americas"></i></h2>
                     </div>
                 </div></a>
@@ -78,7 +79,8 @@
                     <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
                         <div class="container-fluid">
-                            <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}
+                            <h2 class="py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">
+                                <a style="text-decoration: none" target="_blank" href="{{ document.path.url }}">{{ document.name }}</a>
                                 <i style="float: right;" class=" pr-3 fas fa-star"></i></h2>
                         </div>
                     </div></a>
@@ -94,7 +96,8 @@
                 {% for document in documents %}
                     <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
-                        <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
+                        <h2 class="py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">
+                            <a style="text-decoration: none" target="_blank" href="{{ document.path.url }}">{{ document.name }}</a></h2>
                     </div></a>
                     <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
           <a class="dropdown-item" href="#">Action</a>
@@ -108,7 +111,7 @@
                 {% for document in documents %}
                     <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column-d p-0 m-2" >
                         <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
-                        <h2 class="pt-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px">{{ document.name }}</h2>
+                        <h2 class="py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 10px"><a style="text-decoration: none;" href="{{ document.path.url }}" target="_blank">{{ document.name }}</a></h2>
                     </div></a>
                     <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
           <a class="dropdown-item" href="#">Action</a>
