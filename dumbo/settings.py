@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'social_django',  # Third parth authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
     'taggit',
+    'maskurl'
+
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+
 
 ROOT_URLCONF = 'dumbo.urls'
 

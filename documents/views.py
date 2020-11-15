@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
-from .forms import UploadDocumentForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import UploadDocumentForm,DocumentUpdateForm
 import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
 from . import utils
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from django.db.models import Q
 from accounts.models import Profile
 
@@ -39,12 +41,30 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             return redirect('my_documents')
-    context = {'form': form, 'documents': Document.objects.filter(owner=request.user)[:4],
+    context = {'uploadform': form, 'documents': Document.objects.filter(owner=request.user)[:4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user),
                'important_documents': Document.objects.filter(is_important=True, owner=request.user),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user)}
     return render(request, 'documents/my_documents.html', context)
+
+
+class DocumentDetailView(DetailView, UpdateView):
+    model = Document
+    template_name = 'documents/detail.html'
+    fields = ['is_public', 'is_important', 'expiry_date', 'tags']
+    success_url = '/user/documents'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["uploadform"] = UploadDocumentForm()
+        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['title'] = 'search'
+
+        return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 def to_format(file_path: str, name: str, format_: str = 'pdf'):
@@ -104,7 +124,7 @@ class SearchResultsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = UploadDocumentForm()
+        context["uploadform"] = UploadDocumentForm()
         context['common_tags'] = Document.tags.most_common()[:10],
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
@@ -126,3 +146,5 @@ class SearchResultsView(ListView):
         object_list = Document.objects.filter(condition).distinct()
 
         return object_list
+
+

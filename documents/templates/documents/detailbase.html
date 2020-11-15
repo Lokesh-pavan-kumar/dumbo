@@ -253,39 +253,7 @@ input, select {
 
 </nav>
 </div>
-    <div class="sidenav ">
-        <div class="container pt-5 d-flex justify-content-center">
-            <h3 class="text-center pt-5 " style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};"><i class="fas fa-filter" style="color: #162B41"></i> Filters</h3>
-        </div>
-         <button class="dropdown-btn">Common Tags
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-              <form action="{% url 'search_results' %}" method="get">
-                   {% for tag in common_tags %}
-                        {% if title == 'search' %}
-                            {% for a in tag %}
-                                <label for=""><input type="checkbox" value="{{ a }}">{{ a }}</label>
-                            {% endfor %}
-                        {% else %}
-                            <label for=""><input type="checkbox" value="{{ tag }}">{{ tag }}</label>
-                        {% endif %}
-                    {% endfor %}
-              </form>
-          </div>
-        <button class="dropdown-btn">Important Tags
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-          </div>
-         <div class="pt-3 mb-5 d-flex justify-content-center">
-            <button class="btn btn-dark px-5" style="background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
-                <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
-         </div>
-    </div>
+
 
 
 <!-- Page content -->
@@ -305,7 +273,7 @@ input, select {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post", enctype="multipart/form-data">
+      <form method="post" action="/user/documents/" , enctype="multipart/form-data">
           {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">
@@ -407,14 +375,14 @@ $("#context-menu a").on("click", function() {
 
 </script>
 <script>
-  function openMenu() {
-  var x = document.getElementById("context-menu");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
+    jQuery(function($) {
+        $('#golink').click(function () {
+            return false;
+        }).dblclick(function () {
+            window.location = this.href;
+            return false;
+        });
+    });
 </script>
 
 </body>
