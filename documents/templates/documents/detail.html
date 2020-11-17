@@ -41,11 +41,28 @@
                         <i class="fa fa-3x fa-globe-americas"></i>
                         <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 30px;padding-left: 30px;">{{ object.name }}</h5>
                     </div>
+                    {{ object.in_trash }}
                     <div class="d-flex justify-content-end">
                         <button form="update" class="btn px-5" type="submit" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px;background-color: #162B41;color: white;border-radius: 20px">
                             Update
                         </button>
-                        <i style="padding-left: 25px" class="fas fa-2x fa-trash"></i>
+                        <form method="post" action="{% url 'toggle-trash' object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit">
+                                <i style="padding-left: 25px" class="fas fa-2x fa-trash"></i>
+{#                                This button is to toggle from trash#}
+                            </button>
+                        </form>
+{#                    This functionality/button only appears when the document is already in trash#}
+                        {% if object.in_trash %}
+                            <form method="post" action="{% url 'delete-document' object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    <i style="padding-left: 25px" class="fas fa-2x fa-star"></i>
+{#                                    This button is to delete the document permanantly#}
+                                </button>
+                            </form>
+                        {% endif %}
                     </div>
                </div>
             <div class="row">

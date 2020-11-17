@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from taggit.managers import TaggableManager
+from django.db.models.signals import pre_delete
+from google.cloud import storage
+import os
+from dumbo.settings import BASE_DIR
+from datetime import date
+from django.core.signals import request_finished
 
 User = get_user_model()
 
@@ -26,7 +32,33 @@ class Document(models.Model):
     tags = TaggableManager()
     is_public = models.BooleanField()
     is_important = models.BooleanField()
+    in_trash = models.BooleanField(default=False)
 
     def __str__(self):
         owner_name = self.owner.username
         return f"{owner_name}'s {self.name}"
+
+
+def delete_blob(sender, instance, **kwargs):
+    print('Entered PreDelete')
+    if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'credential.json')
+    storage_client = storage.Client()
+    bucket = storage_client.bucket('dumbo-document-storage')
+    blob_name = instance.path.name
+    blob = bucket.blob(blob_name)
+    blob.delete()
+
+
+pre_delete.connect(delete_blob, sender=Document)
+
+
+def after_request(sender, **kwargs):
+    documents = Document.objects.all()
+    for doc in documents:
+        if not doc.in_trash and doc.expiry_date is not None:
+            doc.in_trash = date.today() > doc.expiry_date
+            doc.save()
+
+
+request_finished.connect(after_request)
