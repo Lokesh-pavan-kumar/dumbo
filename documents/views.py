@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UploadDocumentForm,DocumentUpdateForm
+from .forms import UploadDocumentForm, DocumentUpdateForm
 import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
@@ -41,9 +41,9 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             return redirect('my_documents')
-    context = {'uploadform': form, 'documents': Document.objects.filter(owner=request.user)[:4],
-               'public_documents': Document.objects.filter(is_public=True, owner=request.user),
-               'important_documents': Document.objects.filter(is_important=True, owner=request.user),
+    context = {'uploadform': form, 'documents': Document.objects.filter(owner=request.user, in_trash=False)[:4],
+               'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
+               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user)}
     return render(request, 'documents/my_documents.html', context)
@@ -148,3 +148,22 @@ class SearchResultsView(ListView):
         return object_list
 
 
+def toggle_trash(request, pk):
+    if request.method == 'POST':
+        document = Document.objects.get(pk=pk)
+        document.in_trash = not document.in_trash
+        document.save()
+    return redirect('my_documents')
+
+
+def delete_document(request, pk):
+    if request.method == 'POST':
+        document = Document.objects.get(pk=pk)
+        if document.in_trash:
+            document.delete()
+    return redirect('my_documents')
+
+
+def trashed_documents(request):
+    return render(request, 'documents/trashed_docs.html',
+                  context={'documents': Document.objects.filter(owner=request.user, in_trash=True)})
