@@ -99,8 +99,8 @@
 </style>
 
 <div class="container-fluid">
-    <div class="dumboIcon" style="background: #162B41;"><! dumbo icon and dumbo text>
-        <h2 style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: #FFFFFF;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2>
+    <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
+        <a href="{% url "my_documents" %}" style="text-decoration:none;font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: white;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light">
 
@@ -133,10 +133,10 @@
   </button>
 </div>
         {% endfor %}
-    </ul> 
+    </ul>
     {% endif %}
         <img class="img-fluid mx-5" style="border-radius: 10px; height: 300px;width: 300px" src="{{ profile.image.url }}" alt="profile pic">
-        <div class="containe mx-5">
+        <div class="container mx-5">
              <div class="progress my-5 ml-5" data-value='20'>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>

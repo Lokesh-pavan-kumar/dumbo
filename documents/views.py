@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UploadDocumentForm, DocumentUpdateForm
+from .forms import UploadDocumentForm, DocumentUpdateForm, DownloadDocumentForm
 import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
@@ -45,7 +45,8 @@ def my_documents(request):
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
-               'profile': Profile.objects.get(user=request.user)}
+               'profile': Profile.objects.get(user=request.user),
+               'downloadform':DownloadDocumentForm()}
     return render(request, 'documents/my_documents.html', context)
 
 
@@ -60,11 +61,25 @@ class DocumentDetailView(DetailView, UpdateView):
         context["uploadform"] = UploadDocumentForm()
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
+        context['downloadfomr'] = DownloadDocumentForm()
 
         return context
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+def DownloadFile(request):
+    if request.method == 'POST':
+        form = DownloadDocumentForm(request.POST)
+        if form.is_valid():
+            id = form.cleaned_data['document_id']
+            format = form.cleaned_data['format']
+            document = Document.objects.get(owner=request.user, id=id)
+            print(document.path.url)
+            to_format(document.path.url, document.name, format)
+        return redirect('my_documents')
+    return redirect('my_documents')
 
 
 def to_format(file_path: str, name: str, format_: str = 'pdf'):
@@ -128,6 +143,7 @@ class SearchResultsView(ListView):
         context['common_tags'] = Document.tags.most_common()[:10],
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
+        context['downloadfomr'] = DownloadDocumentForm()
 
         return context
 

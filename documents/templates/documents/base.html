@@ -158,13 +158,15 @@ input, select {
 <style>
 /* The sidebar menu */
 .sidenav {
+
+    border-right: 3px #e6e6e6 solid;
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 200px; /* Set the width of the sidebar */
+  width: 240px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   /* Stay on top */
     top: 0px;
     z-index: 1;
-  background-color: #ffffff; /* Black */
+   /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 20px;
 }
@@ -187,6 +189,7 @@ input, select {
 .main {
   margin-left: 200px; /* Same as the width of the sidebar */
   padding: 0px 10px;
+    box-shadow: #818181;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
@@ -199,7 +202,6 @@ input, select {
     /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
-  background-color: white;
   padding-left: 8px;
 }
 
@@ -209,24 +211,100 @@ input, select {
   padding-right: 8px;
 }
     .sidenav a, .dropdown-btn {
+        background-color: #162B41;
+        color: white;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 14px;
-  color: #818181;
   display: block;
   border: none;
-  background: none;
-  width:100%;
-  text-align: left;
+  width:80%;
+        margin: auto;
+        border-radius: 3px;
+  text-align: center;
   cursor: pointer;
   outline: none;
 }
+</style>
+<style>
+    .progress {
+  width: 140px;
+  height: 140px;
+  background: none;
+  position: relative;
+
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 15px solid #eeeeee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress>span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 15px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
 </style>
 <div class="container-fluid border-bottom shadow-lg fixed-top" style="top:0;left:0;">
     <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
         <a href="{% url "my_documents" %}"><h2 style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: #ffffff;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2></a>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light pb-1">
+    <nav class="navbar navbar-expand-lg navbar-light pb-1" style="background-color: white">
 
   <button id ="" class="navbar-toggler ml-auto" type="button" data-toggle="collapse"  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" style="color:#162B41;"></span>
@@ -239,13 +317,13 @@ input, select {
                     <button class="btn btn-outline-dark" type="submit">Search</button>
              </form>
         </li>
-      <li class="nav-item px-3   ml-auto">
+      <li class="nav-item px-3 my-auto  ml-auto">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid" style="height: 35px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
-      <li class="nav-item px-3  ml-auto">
-        <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 30px;width: 30px" class="img-fluid rounded-circle mr-2"src="{{ profile.image.url }}" alt="">{{ profile.user.username }}</a>
+      <li class="nav-item px-3 ml-auto my-auto">
+        <a class="nav-link text-dark" style="font-size: 18px;text-align:center;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 30px;width: 30px" align="left" class="img-fluid rounded-circle mr-2" src="{{ profile.image.url }}" alt=""><span style="padding-top: 10px;padding-bottom: 0">{{ profile.user.username }}</span></a>
       </li>
-        <li class="nav-item px-3 pt-1 ml-auto">
+        <li class="nav-item px-3 pt-1 ml-auto my-auto">
             <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url 'logout' %}"><i class="fas fa-power-off pr-2"></i>Logout</a>
         </li>
     </ul>
@@ -253,27 +331,35 @@ input, select {
 
 </nav>
 </div>
-    <div class="sidenav ">
-        <div class="container pt-5 d-flex justify-content-center">
+    <div class="sidenav example ">
+        <div class="container pt-5 pb-2 mb-4 d-flex justify-content-center" style="border-bottom: 3px #f2f2f2 solid">
             <h3 class="text-center pt-5 " style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};"><i class="fas fa-filter" style="color: #162B41"></i> Filters</h3>
         </div>
-         <button class="dropdown-btn">Common Tags
+         <button class="dropdown-btn my-2">Common Tags
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-container">
-              <form action="{% url 'search_results' %}" method="get">
+              <form action="{% url 'search_results' %}" method="get" id="search">
                    {% for tag in common_tags %}
                         {% if title == 'search' %}
                             {% for a in tag %}
-                                <label for=""><input type="checkbox" value="{{ a }}">{{ a }}</label>
+                                <div class="form-group">
+                                <input class=""  type="checkbox" name="q" value={{ a }}>
+                                <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ a }}">{{ a }}</label>
+                                </div>
                             {% endfor %}
                         {% else %}
-                            <label for=""><input type="checkbox" value="{{ tag }}">{{ tag }}</label>
+                            <div class="form-group">
+                            <input class="" type="checkbox" name="q" value={{ tag }}>
+                            <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ tag }}">
+                                {{ tag }}
+                            </label>
+                            </div>
                         {% endif %}
                     {% endfor %}
               </form>
           </div>
-        <button class="dropdown-btn">Important Tags
+        <button class="dropdown-btn my-2">Important Tags
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-container">
@@ -282,9 +368,22 @@ input, select {
             <a href="#">Link 3</a>
           </div>
          <div class="pt-3 mb-5 d-flex justify-content-center">
-            <button class="btn btn-dark px-5" style="background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
+            <button class="btn px-5" style="border: 3px solid #f2f2f2;width:100%;background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
                 <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
          </div>
+            <div class="container-fluid ml-4">
+             <div class="progress my-5" data-value='60'>
+          <span class="progress-left">
+                        <span style="border-color: #190C69" class="progress-bar"></span>
+          </span>
+          <span class="progress-right">
+                        <span style="border-color: #190C69" class="progress-bar"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="lead text-center" style="font-size: 16px">Remaining <br> ##GB/###GB</div>
+          </div>
+        </div>
+        </div>
     </div>
 
 
@@ -335,6 +434,30 @@ input, select {
     </div>
   </div>
 </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Download</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>Choose format</h6>
+              <form action="/user/documents/download" method="post" id="download">
+                  {% csrf_token %}
+                  {% render_field downloadform.format %}
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" form="download" class="btn" style="background-color: #162B41;color: white">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
 
@@ -387,35 +510,7 @@ for (i = 0; i < dropdown.length; i++) {
 }
 
 </script>
-<script>
-    $('.main').on('contextmenu', function(e) {
-  var top = e.pageY - 10;
-  var left = e.pageX - 90;
-  $("#context-menu").css({
-    display: "block",
-    top: top,
-    left: left
-  }).addClass("show");
-  return false; //blocks default Webbrowser right click menu
-}).on("click", function() {
-  $("#context-menu").removeClass("show").hide();
-});
 
-$("#context-menu a").on("click", function() {
-  $(this).parent().removeClass("show").hide();
-});
-
-</script>
-<script>
-  function openMenu() {
-  var x = document.getElementById("context-menu");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-</script>
 
 </body>
 </html>
