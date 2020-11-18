@@ -368,8 +368,10 @@ input, select {
             <a href="#">Link 3</a>
           </div>
          <div class="pt-3 mb-5 d-flex justify-content-center">
-            <button class="btn px-5" style="border: 3px solid #f2f2f2;width:100%;background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
+             <a class="m-0 p-0" href="{% url "trash" %}" style="width:100%;text-decoration: none;background:none;">
+                 <button class="btn px-5" style="border: 3px solid #f2f2f2;width:100%;background-color: white;font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};color: black">
                 <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
+             </a>
          </div>
             <div class="container-fluid ml-4">
              <div class="progress my-5" data-value='60'>

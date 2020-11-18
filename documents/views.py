@@ -10,6 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.db.models import Q
 from accounts.models import Profile
+from django.contrib import messages
 
 
 # Create your views here.
@@ -41,7 +42,8 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             return redirect('my_documents')
-    context = {'uploadform': form, 'documents': Document.objects.filter(owner=request.user, in_trash=False)[:4],
+    context = {'uploadform': form,
+               'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
@@ -165,21 +167,29 @@ class SearchResultsView(ListView):
 
 
 def toggle_trash(request, pk):
-    if request.method == 'POST':
-        document = Document.objects.get(pk=pk)
-        document.in_trash = not document.in_trash
-        document.save()
+    document = Document.objects.get(pk=pk)
+    document.in_trash = not document.in_trash
+    document.save()
+    if document.in_trash:
+        messages.success(request, f'{document.name} is moved to trash')
+    else:
+        messages.success(request, f'{document.name} is restored')
     return redirect('my_documents')
 
 
 def delete_document(request, pk):
-    if request.method == 'POST':
-        document = Document.objects.get(pk=pk)
-        if document.in_trash:
-            document.delete()
+    document = Document.objects.get(pk=pk)
+    if document.in_trash:
+        document.delete()
+        messages.success(request, f'{document.name} is deleted permanently')
     return redirect('my_documents')
 
 
 def trashed_documents(request):
-    return render(request, 'documents/trashed_docs.html',
-                  context={'documents': Document.objects.filter(owner=request.user, in_trash=True)})
+    context = {'documents': Document.objects.filter(owner=request.user, in_trash=True),
+               'uploadform': UploadDocumentForm(),
+               'profile': Profile.objects.get(user=request.user),
+               'title': 'trash',
+               }
+
+    return render(request, 'documents/trashed_docs.html', context)

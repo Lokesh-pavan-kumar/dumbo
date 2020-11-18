@@ -52,12 +52,22 @@
         }
 }
     </style>
-    <style>
-
-    </style>
-
     <div class=" main pt-5 pl-5 pb-0" >
-        <div class="container pt-5 pb-4 mb-3 ml-1">
+        <div class="container p-0 m-0">
+            {% if messages %}
+    <ul class="messages pt-5 pb-0 m-0" style="z-index: -1;float:left;">
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+            {% endfor %}
+        </div>
+    </ul>
+    {% endif %}
+        </div>
+        <div class="container pt-5   ml-1 d-flex justify-content-start">
                     <button class="btn float-left" style="background-color: #162B41;border-radius: 12px">
                     <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};color: white">Public Documents</h5>
                     </button>
@@ -78,7 +88,7 @@
                                       <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
                                     </button>
                                    <div class="dropdown-divider pr-5"></div>
-                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                                    <a class="dropdown-item py-2 pr-5" href="{% url 'toggle-trash' document.id %}"><i class="fas fa-trash mr-2"></i>Delete</a>
                                </div>
                             </div>
                     </div>
@@ -108,7 +118,7 @@
                                       <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
                                     </button>
                                    <div class="dropdown-divider pr-5"></div>
-                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                                    <a class="dropdown-item py-2 pr-5" href="{% url 'toggle-trash' document.id %}"><i class="fas fa-trash mr-2"></i>Delete</a>
                                </div>
                             </div>
                     </div>
@@ -136,7 +146,7 @@
                                       <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
                                     </button>
                                    <div class="dropdown-divider pr-5"></div>
-                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                                    <a class="dropdown-item py-2 pr-5" href="{% url 'toggle-trash' document.id %}"><i class="fas fa-trash mr-2"></i>Delete</a>
                                </div>
                             </div>
                     </div>
@@ -165,7 +175,7 @@
                                       <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
                                     </button>
                                    <div class="dropdown-divider pr-5"></div>
-                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                                    <a class="dropdown-item py-2 pr-5" href="{% url 'toggle-trash' document.id %}"><i class="fas fa-trash mr-2"></i>Delete</a>
                                </div>
                             </div>
                         </div>
