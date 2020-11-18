@@ -39,6 +39,13 @@ class Document(models.Model):
         return f"{owner_name}'s {self.name}"
 
 
+class thumbs(models.Model):
+    id = models.OneToOneField(Document, on_delete=models.CASCADE, primary_key=True)
+    image = models.ImageField(
+        default='https://storage.googleapis.com/dumbo-document-storage/thumbnails/documents/default.jpg',
+        upload_to='thumbnails/')
+
+
 def delete_blob(sender, instance, **kwargs):
     print('Entered PreDelete')
     if os.environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:

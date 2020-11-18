@@ -75,10 +75,15 @@
         <div class="container-fluid mt-0 row up-row example">
             {% for document in public_documents %}
                 <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column p-0 my-3 mx-4" >
-                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
+                    {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img class="img-fluid center" src="{{ thumb.image.url }}" alt="" style="height: 200px;width: 100%;object-fit: cover;border-radius: 5px">
+
+                        {% endif %}
+                        {% endfor %}
                     <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
-                              <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%;border:1px solid #f2f2f2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ document.name }}
                               </button>
                               <div  class="py-3 shadow-lg dropdown-menu"  aria-labelledby="dropdownMenuButton" style="width: 240px">
@@ -105,8 +110,12 @@
                 </div>
                 {% for document in important_documents %}
                 <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
-                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
-                    <div class="container-fluid m-0 p-0">
+                    {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">
+
+                        {% endif %}
+                        {% endfor %}                    <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
                               <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ document.name }}
@@ -133,8 +142,12 @@
                 </div>
                 {% for document in recent_documents %}
                     <div ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
-                        <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
-                        <div class="container-fluid m-0 p-0">
+                    {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">
+
+                        {% endif %}
+                        {% endfor %}                        <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
                               <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ document.name }}
@@ -162,8 +175,11 @@
                 </div>
                 {% for document in recent_documents %}
                     <div ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
-                        <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 100px;width: 100%;border-radius: 5px">
-                        <div class="container-fluid m-0 p-0">
+                        {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">
+                        {% endif %}
+                        {% endfor %}                        <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
                               <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ document.name }}

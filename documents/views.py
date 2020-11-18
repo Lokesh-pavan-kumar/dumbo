@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UploadDocumentForm, DocumentUpdateForm, DownloadDocumentForm
 import requests
 from requests.auth import HTTPBasicAuth
-from .models import Document
+from .models import Document, thumbs
 from . import utils
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
@@ -41,6 +41,10 @@ def my_documents(request):
             if tags is not None:
                 doc_object.tags.add(*tags)
                 doc_object.save()
+            thumb = thumbs(id=doc_object)
+            if doc_object.name.split('.')[-1] != 'pdf':
+                thumb.image = doc_object.path.file
+            thumb.save()
             return redirect('my_documents')
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
@@ -48,7 +52,9 @@ def my_documents(request):
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
-               'downloadform':DownloadDocumentForm()}
+               'downloadform':DownloadDocumentForm(),
+               'thumbs': thumbs.objects.filter(id__owner=request.user, id__is_public=True, id__in_trash=False)[:4],
+               }
     return render(request, 'documents/my_documents.html', context)
 
 
