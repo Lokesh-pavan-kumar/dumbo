@@ -3,15 +3,12 @@
 {% load widget_tweaks %}
 {% block title %} {{ object.name }} {% endblock %}
 {% block content %}
-    <style>
-    /* - FIX Datepicker -*/
-.bootstrap-datetimepicker-widget.dropdown-menu  {
-    width: 250px;
-}
-    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <div class="container-fluid row" style="padding-top: 80px">
         <div class="col-lg-5 pt-5" style="padding-left: 120px">
-            <img class="img-fluid" style="height: 360px" src="{% static "accounts/Rectangle 52.png"%}" alt="">
+            <div class="container" style="overflow: hidden">
+                <iframe class="example embed-responsive-item" src="{{ object.path.url }}#toolbar=0" width="100%" height="400px"></iframe>
+            </div>
             <div class="container pt-5 d-flex justify-content-between">
                 <div class="d-flex justify-content-start">
                     <h5 style="font-size: 20px">Date Added</h5>
@@ -31,7 +28,7 @@
              <div class="container pt-3 d-flex justify-content-between">
                 <div class="d-flex justify-content-start">
                     <h5 style="font-size: 20px">Size</h5>
-                    <h6 class="pl-5">{{ object.path.size }}kb</h6>
+                    <h6 class="pl-5">{{ object.path.size }}B</h6>
                 </div>
             </div>
         </div>
@@ -41,27 +38,13 @@
                         <i class="fa fa-3x fa-globe-americas"></i>
                         <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 30px;padding-left: 30px;">{{ object.name }}</h5>
                     </div>
-                    {{ object.in_trash }}
                     <div class="d-flex justify-content-end">
                         <button form="update" class="btn px-5" type="submit" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px;background-color: #162B41;color: white;border-radius: 20px">
                             Update
                         </button>
-                        <form method="post" action="{% url 'toggle-trash' object.pk %}">
-                            {% csrf_token %}
-                            <button type="submit">
-                                <i style="padding-left: 25px" class="fas fa-2x fa-trash"></i>
-{#                                This button is to toggle from trash#}
-                            </button>
-                        </form>
-{#                    This functionality/button only appears when the document is already in trash#}
-                        {% if object.in_trash %}
-                            <form method="post" action="{% url 'delete-document' object.pk %}">
-                                {% csrf_token %}
-                                <button type="submit">
-                                    <i style="padding-left: 25px" class="fas fa-2x fa-star"></i>
-{#                                    This button is to delete the document permanantly#}
-                                </button>
-                            </form>
+                        {% if object.in_trash  %}
+                        {% else %}
+                       <a style="text-decoration: none;color: #162B41" href="{% url "toggle-trash" object.id %}"><i style="padding-left: 25px" class="fas fa-2x fa-trash"></i></a>
                         {% endif %}
                     </div>
                </div>
@@ -94,14 +77,22 @@
                              <div class="pt-5 d-flex justify-content-start">
                                 <label>
                                     <span style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 20px">Auto Deletion Time</span><br>
-                                    {% render_field form.expiry_date class="my-3" type="date"  %}
+                                    {% render_field form.expiry_date class="my-3" type="date" id="date"  %}
                                 </label>
                             </div>
                         </form>
                     </div>
-                <div class="col-lg-3 mt-5 pb-0">
-                    <i class="fas fa-share-alt"></i>
-                    <h5 style="float: right;font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 18px">Share a copy</h5>
+                <div class="col-lg-3 mt-5 pb-0 px-0 mx-0">
+                    <div class="container-fluid mb-3">
+                        <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 18px"><i class="fas fa-share-alt "></i>
+                    Share a copy</h5>
+                    </div>
+                    <div class="container-fluid my-3">
+                        <button type="button" class="btn " style="width: 100%;background-color: white;:hover {background-color: #818181}"  data-toggle="modal" data-target="#exampleModal">
+                            <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 18px"><i class="fas fa-download pr-3 "></i>Download</h5>
+                            <input type="text" form="download" value="{{ object.id }}" id="document_id" name="document_id" style="display: none">
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="container">
@@ -110,7 +101,34 @@
                        {% render_field form.tags form="update" class="pl-3" %}
                     </label>
             </div>
+            <div class="containter my-5 d-flex justify-content-between">
+                        {% if object.in_trash %}
+                            <div class="container  d-flex justify-content-start">
+                            <a  href="{% url "toggle-trash" object.id %}">
+                            <button class="btn" style="color: white;background-color: #162B41;">
+                                <i style="color: white" class="fas fa-trash-restore pr-2"></i>restore
+                            </button>
+                            </a>
+                            </div>
+                            <div class="container d-flex justify-content-end">
+                            <a href="{% url "delete-document" object.id %}">
+                            <button class="btn " style="color: white;background-color: #162B41;">
+                                delete permanently
+                            </button>
+                            </a>
+                            </div>
+                        {% endif %}
+
+                    </div>
         </div>
     </div>
+<script>
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
 
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("date").min = today;
+</script>
 {% endblock content %}

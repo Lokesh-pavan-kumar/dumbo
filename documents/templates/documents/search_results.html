@@ -6,7 +6,7 @@
         .column {
             text-align:center;
             float: left;
-            width: 15%;
+            width: 240px;
             background-color: #f2f2f2;
             border-radius: 5px;
         }
@@ -29,28 +29,32 @@
 }
     </style>
     <div class="main pt-5 pb-0">
-        <div class="container-fluid pt-5 up-row example">
-            <h5 class="pl-3" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %}">Search Results</h5>
+        <div class="container pt-5 pb-4 mb-3 ml-5">
+                    <button class="btn float-left" style="background-color: #162B41;border-radius: 12px">
+                    <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};color: white">Search Results</h5>
+                </button>
+            </div>
+        <div class="container-fluid up-row example ml-4">
              {% for document in object_list %}
-                <a id="golink" style="color: #111111;cursor: auto" href="#"><div class="container column p-0 m-3" >
+                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column p-0 my-3 mx-4" >
                     <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
-                    <div class="container-fluid">
-                        <h5 class="text-center py-2" style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};font-size: 14px">
-                            <a href="{{ document.path.url }}" target="_blank" style="text-decoration: none">{{ document.name }}</a>
-                            {% if document.is_public %}
-                            <i style="float: right;" class="pr-3 fas fa-globe-americas"></i>
-                            {% endif %}
-                            {% if document.is_important %}
-                                <i style="float: right;" class=" pr-3 fas fa-star"></i>
-                            {% endif %}
-                        </h5>
+                    <div class="container-fluid m-0 p-0">
+                            <div class="dropdown m-0 p-0">
+                              <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="text-dark" style="text-decoration: none" href="{{ document.path.url }}" target="_blank">{{ document.name }}</a>
+                              </button>
+                              <div  class="py-3 shadow-lg dropdown-menu"  aria-labelledby="dropdownMenuButton" style="width: 240px">
+                                    <a class="dropdown-item py-2 pr-5" href="{% url "detail" document.id %}"><i class="fas fa-share-alt mr-2"></i>Share</a>
+                                  <button type="button" class="btn pr-5 text-left" style="width: 100%;background-color: white;:hover {background-color: #818181}"  data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-download mx-2"></i>Download
+                                      <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
+                                    </button>
+                                   <div class="dropdown-divider pr-5"></div>
+                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                               </div>
+                            </div>
                     </div>
-                </div></a>
-                <div class="dropdown-menu dropdown-menu-sm" id="context-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+                </div>
             {% endfor %}
         </div>
     </div>

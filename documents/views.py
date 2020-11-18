@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UploadDocumentForm, DocumentUpdateForm
+from .forms import UploadDocumentForm, DocumentUpdateForm, DownloadDocumentForm
 import requests
 from requests.auth import HTTPBasicAuth
 from .models import Document
@@ -10,6 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.db.models import Q
 from accounts.models import Profile
+from django.contrib import messages
 
 
 # Create your views here.
@@ -41,11 +42,13 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             return redirect('my_documents')
-    context = {'uploadform': form, 'documents': Document.objects.filter(owner=request.user, in_trash=False)[:4],
+    context = {'uploadform': form,
+               'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
-               'profile': Profile.objects.get(user=request.user)}
+               'profile': Profile.objects.get(user=request.user),
+               'downloadform':DownloadDocumentForm()}
     return render(request, 'documents/my_documents.html', context)
 
 
@@ -60,11 +63,25 @@ class DocumentDetailView(DetailView, UpdateView):
         context["uploadform"] = UploadDocumentForm()
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
+        context['downloadfomr'] = DownloadDocumentForm()
 
         return context
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+def DownloadFile(request):
+    if request.method == 'POST':
+        form = DownloadDocumentForm(request.POST)
+        if form.is_valid():
+            id = form.cleaned_data['document_id']
+            format = form.cleaned_data['format']
+            document = Document.objects.get(owner=request.user, id=id)
+            print(document.path.url)
+            to_format(document.path.url, document.name, format)
+        return redirect('my_documents')
+    return redirect('my_documents')
 
 
 def to_format(file_path: str, name: str, format_: str = 'pdf'):
@@ -128,6 +145,7 @@ class SearchResultsView(ListView):
         context['common_tags'] = Document.tags.most_common()[:10],
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
+        context['downloadfomr'] = DownloadDocumentForm()
 
         return context
 
@@ -149,21 +167,29 @@ class SearchResultsView(ListView):
 
 
 def toggle_trash(request, pk):
-    if request.method == 'POST':
-        document = Document.objects.get(pk=pk)
-        document.in_trash = not document.in_trash
-        document.save()
+    document = Document.objects.get(pk=pk)
+    document.in_trash = not document.in_trash
+    document.save()
+    if document.in_trash:
+        messages.success(request, f'{document.name} is moved to trash')
+    else:
+        messages.success(request, f'{document.name} is restored')
     return redirect('my_documents')
 
 
 def delete_document(request, pk):
-    if request.method == 'POST':
-        document = Document.objects.get(pk=pk)
-        if document.in_trash:
-            document.delete()
+    document = Document.objects.get(pk=pk)
+    if document.in_trash:
+        document.delete()
+        messages.success(request, f'{document.name} is deleted permanently')
     return redirect('my_documents')
 
 
 def trashed_documents(request):
-    return render(request, 'documents/trashed_docs.html',
-                  context={'documents': Document.objects.filter(owner=request.user, in_trash=True)})
+    context = {'documents': Document.objects.filter(owner=request.user, in_trash=True),
+               'uploadform': UploadDocumentForm(),
+               'profile': Profile.objects.get(user=request.user),
+               'title': 'trash',
+               }
+
+    return render(request, 'documents/trashed_docs.html', context)

@@ -25,8 +25,8 @@ class Document(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name of the document')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     path = models.FileField(upload_to=update_filename)  # URL := gs://{bucket-name}/{file-path}
-    date_added = models.DateField(auto_now=True)
-    last_updated = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True)
+    last_updated = models.DateField(auto_now=True)
     expiry_date = models.DateField(null=True, blank=True)
     # tags = models.TextField(null=True, blank=True)
     tags = TaggableManager()

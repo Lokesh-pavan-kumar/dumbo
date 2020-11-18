@@ -239,13 +239,13 @@ input, select {
                     <button class="btn btn-outline-dark" type="submit">Search</button>
              </form>
         </li>
-      <li class="nav-item px-3   ml-auto">
+      <li class="nav-item px-3 my-auto  ml-auto">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#form"><img class="img-fluid" style="height: 35px" src="{% static "accounts/add file.png" %}" alt=""></a>
       </li>
-      <li class="nav-item px-3  ml-auto">
-        <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 30px;width: 30px" class="img-fluid rounded-circle mr-2"src="{{ profile.image.url }}" alt="">{{ profile.user.username }}</a>
+      <li class="nav-item px-3 ml-auto my-auto">
+        <a class="nav-link text-dark" style="font-size: 18px;text-align:center;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url "profile" %}"><img style="height: 30px;width: 30px" align="left" class="img-fluid rounded-circle mr-2" src="{{ profile.image.url }}" alt=""><span style="padding-top: 10px;padding-bottom: 0">{{ profile.user.username }}</span></a>
       </li>
-        <li class="nav-item px-3 pt-1 ml-auto">
+        <li class="nav-item px-3 pt-1 ml-auto my-auto">
             <a class="nav-link text-dark" style="font-size: 18px;font-family: {% static "accounts/ Montserrat-Medium.ttf" %};" href="{% url 'logout' %}"><i class="fas fa-power-off pr-2"></i>Logout</a>
         </li>
     </ul>
@@ -303,6 +303,29 @@ input, select {
     </div>
   </div>
 </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Download</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>Choose format</h6>
+              <form action="/user/documents/download" method="post" id="download">
+                  {% csrf_token %}
+                  {% render_field downloadform.format %}
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" form="download" class="btn" style="background-color: #162B41;color: white">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
