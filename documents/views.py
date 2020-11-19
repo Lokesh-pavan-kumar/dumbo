@@ -42,7 +42,8 @@ def my_documents(request):
                 doc_object.tags.add(*tags)
                 doc_object.save()
             thumb = thumbs(id=doc_object)
-            if doc_object.name.split('.')[-1] != 'pdf':
+            print(doc_object.path.name.split('.')[-1])
+            if doc_object.path.name.split('.')[-1] != 'pdf':
                 thumb.image = doc_object.path.file
             thumb.save()
             return redirect('my_documents')
@@ -152,6 +153,7 @@ class SearchResultsView(ListView):
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
         context['downloadfomr'] = DownloadDocumentForm()
+        context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
 
         return context
 
@@ -196,6 +198,7 @@ def trashed_documents(request):
                'uploadform': UploadDocumentForm(),
                'profile': Profile.objects.get(user=request.user),
                'title': 'trash',
+               'thumbs': thumbs.objects.filter(id__owner=request.user,id__in_trash=True),
                }
 
     return render(request, 'documents/trashed_docs.html', context)

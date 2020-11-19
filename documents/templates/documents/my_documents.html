@@ -11,6 +11,7 @@
             width: 240px;
             background-color: #f2f2f2;
             border-radius: 5px;
+            transition:transform .2s;
         }
     .down-row{
         width: 30%;
@@ -22,6 +23,8 @@
         width: 40%;
         background-color: #f2f2f2;
         border-radius: 5px;
+        transition:transform .2s;
+        z-index: -1;
     }
     </style>
     <style>
@@ -52,6 +55,7 @@
         }
 }
     </style>
+
     <div class=" main pt-5 pl-5 pb-0" >
         <div class="container p-0 m-0">
             {% if messages %}
@@ -74,10 +78,10 @@
         </div>
         <div class="container-fluid mt-0 row up-row example">
             {% for document in public_documents %}
-                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column p-0 my-3 mx-4" >
+                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle column p-0 my-3 mx-4" >
                     {% for thumb in thumbs %}
                         {% if thumb.id.id == document.id %}
-                    <img class="img-fluid center" src="{{ thumb.image.url }}" alt="" style="height: 200px;width: 100%;object-fit: cover;border-radius: 5px">
+                    <img class="img-fluid" src="{{ thumb.image.url }}" alt="" style="height: 160px;width: 100%;object-fit: cover;border-radius: 5px">
 
                         {% endif %}
                         {% endfor %}
@@ -109,7 +113,7 @@
                 </button>
                 </div>
                 {% for document in important_documents %}
-                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
+                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle2 column-d p-0 mx-2 my-4" >
                     {% for thumb in thumbs %}
                         {% if thumb.id.id == document.id %}
                     <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">
@@ -141,7 +145,7 @@
                 </button>
                 </div>
                 {% for document in recent_documents %}
-                    <div ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
+                    <div ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle2 column-d p-0 mx-2 my-4" >
                     {% for thumb in thumbs %}
                         {% if thumb.id.id == document.id %}
                     <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">
@@ -174,7 +178,7 @@
                 </button>
                 </div>
                 {% for document in recent_documents %}
-                    <div ondblclick="location.href='{% url "detail" document.id %}'" class="container column-d p-0 m-2" >
+                    <div ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle2 column-d p-0 mx-2 my-4" >
                         {% for thumb in thumbs %}
                         {% if thumb.id.id == document.id %}
                     <img src="{{ thumb.image.url }}" alt="" style="height: 100px;width: 100%;object-fit: cover;border-radius: 5px">

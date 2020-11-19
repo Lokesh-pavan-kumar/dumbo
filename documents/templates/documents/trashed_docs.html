@@ -18,11 +18,12 @@
     <style>
     @media screen and (max-width: 700px) {
         .column {
-        width: 50%;
-        display: inline-block;
+            width: 50%;
+            display: inline-block;
             float: none;
-        margin-bottom: 20px;
-  }
+            margin-bottom: 20px;
+            transition: transform .2s;
+        }
 
         .up-row {
             overflow-y: hidden;
@@ -31,6 +32,17 @@
         }
 }
     </style>
+    <style>
+    .borderstyle:hover {
+        outline: 3px #162B41 solid;
+        transform: scale(1.1);
+    }
+    .borderstyle2:hover {
+        outline: 3px #162B41 solid;
+        transform: scale(1.1);
+    }
+
+</style>
     <div class="container-fluid pt-5 pb-0">
         <div class="container pt-5 pb-4 mb-3 ml-5">
                     <button class="btn float-left" style="background-color: #162B41;border-radius: 12px">
@@ -39,9 +51,13 @@
             </div>
         <div class="container-fluid up-row example ml-4">
              {% for document in documents %}
-                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column p-0 my-3 mx-4" >
-                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
-                    <div class="container-fluid m-0 p-0">
+                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column borderstyle p-0 my-3 mx-4" >
+ {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img class="img-fluid" src="{{ thumb.image.url }}" alt="" style="height: 160px;width: 100%;object-fit: cover;border-radius: 5px">
+
+                        {% endif %}
+                        {% endfor %}                     <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
                               <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <a class="text-dark" style="text-decoration: none" href="{{ document.path.url }}" target="_blank">{{ document.name }}</a>

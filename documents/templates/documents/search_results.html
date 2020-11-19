@@ -9,6 +9,8 @@
             width: 240px;
             background-color: #f2f2f2;
             border-radius: 5px;
+            transition:transform .2s;
+
         }
 
     </style>
@@ -36,9 +38,13 @@
             </div>
         <div class="container-fluid up-row example ml-4">
              {% for document in object_list %}
-                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container column p-0 my-3 mx-4" >
-                    <img src="{% static "accounts/imagecap.svg" %}" alt="" style="height: 150px;width: 100%;border-radius: 5px">
-                    <div class="container-fluid m-0 p-0">
+                <div oncontextmenu="return false;" ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle column p-0 my-3 mx-4" >
+                {% for thumb in thumbs %}
+                        {% if thumb.id.id == document.id %}
+                    <img class="img-fluid" src="{{ thumb.image.url }}" alt="" style="height: 160px;width: 100%;object-fit: cover;border-radius: 5px">
+
+                        {% endif %}
+                        {% endfor %}                    <div class="container-fluid m-0 p-0">
                             <div class="dropdown m-0 p-0">
                               <button class="btn btn-light m-0 p-0 dropdown-toggle" style="width: 100%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <a class="text-dark" style="text-decoration: none" href="{{ document.path.url }}" target="_blank">{{ document.name }}</a>
@@ -50,7 +56,7 @@
                                       <input type="text" form="download" value="{{ document.id }}" id="document_id" name="document_id" style="display: none">
                                     </button>
                                    <div class="dropdown-divider pr-5"></div>
-                                    <a class="dropdown-item py-2 pr-5" href="#"><i class="fas fa-trash mr-2"></i>Delete</a>
+                                    <a class="dropdown-item py-2 pr-5" href="{% url "toggle-trash" document.id %}"><i class="fas fa-trash mr-2"></i>Delete</a>
                                </div>
                             </div>
                     </div>
