@@ -177,7 +177,7 @@
                     <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};color: white">Most viewed</h5>
                 </button>
                 </div>
-                {% for document in recent_documents %}
+                {% for document in most_viewed_documents %}
                     <div ondblclick="location.href='{% url "detail" document.id %}'" class="container borderstyle2 column-d p-0 mx-2 my-4" >
                         {% for thumb in thumbs %}
                         {% if thumb.id.id == document.id %}

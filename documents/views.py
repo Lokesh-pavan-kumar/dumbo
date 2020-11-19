@@ -50,6 +50,7 @@ def my_documents(request):
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
+               'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:1],
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
@@ -67,10 +68,15 @@ class DocumentDetailView(DetailView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["uploadform"] = UploadDocumentForm()
+        
+        required = Document.objects.get(pk=kwargs['object'].pk)
+        required.view_count += 1
+        required.save()
+
+        context['uploadform'] = UploadDocumentForm()
         context['profile'] = Profile.objects.get(user=self.request.user)
         context['title'] = 'search'
-        context['downloadfomr'] = DownloadDocumentForm()
+        context['downloadform'] = DownloadDocumentForm()
 
         return context
 
@@ -173,6 +179,37 @@ class SearchResultsView(ListView):
 
         return object_list
 
+class FilterResultsView(ListView):
+    model = Document
+    template_name = 'documents/search_results.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["uploadform"] = UploadDocumentForm()
+        context['common_tags'] = Document.tags.most_common()[:10],
+        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['title'] = 'search'
+        context['downloadfomr'] = DownloadDocumentForm()
+        context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
+
+        return context
+
+    def get_queryset(self):
+        
+        query = self.kwargs['tags']
+
+        query = query.split(" ")  # making a list of all the tags
+
+        condition = Q(tags__name__icontains=query[0])
+
+        for string in query[1:]:
+            condition |= Q(tags__name__icontains=string)  # the or condition for all the queried tags
+
+        condition &= Q(owner=self.request.user)  # the and condition for the username
+
+        object_list = Document.objects.filter(condition).distinct()
+
+        return object_list
 
 def toggle_trash(request, pk):
     document = Document.objects.get(pk=pk)
