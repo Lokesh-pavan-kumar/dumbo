@@ -50,7 +50,7 @@ def my_documents(request):
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
-               'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:1],
+               'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:4],
                'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
