@@ -49,13 +49,13 @@ def my_documents(request):
             return redirect('my_documents')
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
-               'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
+               'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False)[:4],
                'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:4],
-               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
+               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False)[:4],
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
                'downloadform':DownloadDocumentForm(),
-               'thumbs': thumbs.objects.filter(id__owner=request.user, id__is_public=True, id__in_trash=False)[:4],
+               'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False)[:4],
                }
     return render(request, 'documents/my_documents.html', context)
 
