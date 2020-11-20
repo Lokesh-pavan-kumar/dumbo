@@ -203,6 +203,8 @@ input, select {
 .dropdown-container {
   display: none;
   padding-left: 8px;
+    width: 80%;
+    margin: auto;
 }
 
 /* Optional: Style the caret down icon */
@@ -350,24 +352,30 @@ input, select {
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-container">
-              <form action="{% url 'search_results' %}" method="get" id="search">
+                 <form action="{% url 'filter_results' %}" method="get" id="search">
+                    <div class="form-group" style="width: 100%;margin: auto">
+                        <button id="btnGet" style="background-color: #162B41;color: white;font-size: 12px;border-radius: 3px;position: sticky" class="btn">
+                            Search
+                        </button>
+                    </div>
                    {% for tag in common_tags %}
                         {% if title == 'search' %}
                             {% for a in tag %}
                                 <div class="form-group">
-                                <input class=""  type="checkbox" name="q" value={{ a }}>
+                                 <input  type="checkbox" value="{{ a }}" id="{{ a }}" >
                                 <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ a }}">{{ a }}</label>
                                 </div>
                             {% endfor %}
                         {% else %}
                             <div class="form-group">
-                            <input class="" type="checkbox" name="q" value={{ tag }}>
-                            <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ tag }}">
+                            <input type="checkbox"  value="{{ tag }}" id="{{ tag }}">
+                             <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ tag }}">
                                 {{ tag }}
                             </label>
                             </div>
                         {% endif %}
                     {% endfor %}
+                     <input type="text" id="filter" name="q" style="visibility: hidden;">
               </form>
           </div>
         <button class="dropdown-btn my-2">Important Tags
@@ -401,7 +409,6 @@ input, select {
 
 
 <!-- Page content -->
-
 
 {% block content %}
 {% endblock %}
@@ -522,6 +529,23 @@ for (i = 0; i < dropdown.length; i++) {
   });
 }
 
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnGet").click(function () {
+            //Create an Array.
+            var selected = new Array();
+
+            //Reference the CheckBoxes and insert the checked CheckBox value in Array.
+            $("#search input[type=checkbox]:checked").each(function () {
+                selected.push(this.value);
+            });
+
+            //Display the selected CheckBox values.
+            x = document.getElementById('filter');
+            x.value = selected.join("+");
+        });
+    });
 </script>
 
 

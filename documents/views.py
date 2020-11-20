@@ -165,7 +165,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-
+        print(query)
         query = query.split(" ")  # making a list of all the tags
 
         condition = Q(tags__name__icontains=query[0])
@@ -178,6 +178,7 @@ class SearchResultsView(ListView):
         object_list = Document.objects.filter(condition).distinct()
 
         return object_list
+
 
 class FilterResultsView(ListView):
     model = Document
@@ -195,10 +196,9 @@ class FilterResultsView(ListView):
         return context
 
     def get_queryset(self):
-        
-        query = self.kwargs['tags']
+        query = self.request.GET.get('q')
 
-        query = query.split(" ")  # making a list of all the tags
+        query = query.split("+")  # making a list of all the tags
 
         condition = Q(tags__name__icontains=query[0])
 
@@ -210,6 +210,7 @@ class FilterResultsView(ListView):
         object_list = Document.objects.filter(condition).distinct()
 
         return object_list
+
 
 def toggle_trash(request, pk):
     document = Document.objects.get(pk=pk)
