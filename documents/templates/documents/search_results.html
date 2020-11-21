@@ -30,8 +30,14 @@
         }
 }
     </style>
-    <div class="main pt-5 pb-0">
-        <div class="container pt-5 pb-4 mb-3 ml-5">
+    <div class="main  pt-5 pb-0">
+    <nav class="ml-5" aria-label="breadcrumb">
+              <ol class="breadcrumb mt-4" style="background-color: white">
+                <li class="breadcrumb-item " aria-current="page"><a href="{% url "my_documents" %}" style="text-decoration: none;;color: #162B41"><b>My Documents</b></a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Search {% if q %}{{ q }}{% else %}NIL{% endif %}</li>
+              </ol>
+            </nav>
+        <div class="container pt-0 pb-4 mb-3 ml-5">
                     <button class="btn float-left" style="background-color: #162B41;border-radius: 12px">
                     <h5 style="font-family: {% static "accounts/Montserrat-Medium.ttf" %};color: white">Search Results</h5>
                 </button>

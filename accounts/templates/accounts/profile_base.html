@@ -102,8 +102,7 @@
     <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
         <a href="{% url "my_documents" %}" style="text-decoration:none;font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: white;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</a>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light">
-
+    <nav class="navbar navbar-expand-lg navbar-light mb-0 pb-0">
   <button id ="" class="navbar-toggler ml-auto" type="button" data-toggle="collapse"  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" style="color:#162B41;"></span>
   </button>
@@ -120,9 +119,14 @@
   </div>
 </nav>
 </div>
-
-<div class="container-fluid row">
-    <div class="col-lg-5 pt-5" style="height: 100%">
+<nav class=" mx-5 my-0  px-5 pt-0 pb-0" aria-label="breadcrumb">
+              <ol class="breadcrumb mt-2 mb-0" style="background-color: white">
+                <li class="breadcrumb-item " aria-current="page"><a href="{% url "my_documents" %}" style="color: #162B41"><b>My Documents</b></a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Profile</li>
+              </ol>
+            </nav>
+<div class="container-fluid row pt-0">
+    <div class="col-lg-5 pt-1 mt-0" style="height: 100%">
         {% if messages %}
     <ul class="messages" style="z-index: -1;float:left;">
         {% for message in messages %}

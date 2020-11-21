@@ -55,7 +55,7 @@ def my_documents(request):
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
                'downloadform':DownloadDocumentForm(),
-               'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False)[:4],
+               'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False),
                }
     return render(request, 'documents/my_documents.html', context)
 
@@ -160,6 +160,7 @@ class SearchResultsView(ListView):
         context['title'] = 'search'
         context['downloadfomr'] = DownloadDocumentForm()
         context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
+        context['q'] = query = self.request.GET.get('q')
 
         return context
 
@@ -192,6 +193,7 @@ class FilterResultsView(ListView):
         context['title'] = 'search'
         context['downloadfomr'] = DownloadDocumentForm()
         context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
+        context['q'] = self.request.GET.get('q')
 
         return context
 

@@ -55,7 +55,8 @@ def delete_blob(sender, instance, **kwargs):
     bucket = storage_client.bucket('dumbo-document-storage')
     blob_name = instance.path.name
     blob = bucket.blob(blob_name)
-    blob.delete()
+    if blob.exists():
+        blob.delete()
 
 
 pre_delete.connect(delete_blob, sender=Document)
