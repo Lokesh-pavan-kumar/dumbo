@@ -36,16 +36,24 @@ def my_documents(request):
         if form.is_valid():
             doc_object = form.save(commit=False)
             doc_object.owner = request.user
-            doc_object.save()
-            tags = get_doc_tags(doc_object.path.name)
-            if tags is not None:
-                doc_object.tags.add(*tags)
-                doc_object.save()
-            thumb = thumbs(id=doc_object)
-            print(doc_object.path.name.split('.')[-1])
-            if doc_object.path.name.split('.')[-1] != 'pdf':
-                thumb.image = doc_object.path.file
-            thumb.save()
+            total_space1 = request.user.profile.total_space
+            used_space1 = request.user.profile.used_space
+            document_space = doc_object.path.size
+            if total_space1 - used_space1 >= document_space:
+                used_space1 += document_space
+                request.user.profile.used_space = used_space1
+                request.user.profile.save()
+                tags = get_doc_tags(doc_object.path.name)
+                if tags is not None:
+                    doc_object.tags.add(*tags)
+                    doc_object.save()
+                thumb = thumbs(id=doc_object)
+                print(doc_object.path.name.split('.')[-1])
+                if doc_object.path.name.split('.')[-1] != 'pdf':
+                    thumb.image = doc_object.path.file
+                thumb.save()
+            else:
+                print('storage exceeded')
             return redirect('my_documents')
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
