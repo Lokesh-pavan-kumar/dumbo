@@ -59,7 +59,11 @@ def delete_blob(sender, instance, **kwargs):
     if blob.exists():
         user = instance.owner
         profile = Profile.objects.get(user = user)
-        profile.used_space -= instance.path.size 
+        profile.used_space -= instance.path.size
+        
+        if profile.used_space < 0:
+            profile.used_space = 0 
+            
         profile.save()
         blob.delete()
 
