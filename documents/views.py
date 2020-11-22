@@ -36,35 +36,29 @@ def my_documents(request):
         if form.is_valid():
             doc_object = form.save(commit=False)
             doc_object.owner = request.user
-            total_space1 = request.user.profile.total_space
-            used_space1 = request.user.profile.used_space
-            document_space = doc_object.path.size
-            if total_space1 - used_space1 >= document_space:
-                used_space1 += document_space
-                request.user.profile.used_space = used_space1
-                request.user.profile.save()
-                tags = get_doc_tags(doc_object.path.name)
-                if tags is not None:
-                    doc_object.tags.add(*tags)
-                    doc_object.save()
-                thumb = thumbs(id=doc_object)
-                print(doc_object.path.name.split('.')[-1])
-                if doc_object.path.name.split('.')[-1] != 'pdf':
-                    thumb.image = doc_object.path.file
-                thumb.save()
-            else:
-                print('storage exceeded')
+            doc_object.save()
+            tags = get_doc_tags(doc_object.path.name)
+            if tags is not None:
+                doc_object.tags.add(*tags)
+                doc_object.save()
+            thumb = thumbs(id=doc_object)
+            print(doc_object.path.name.split('.')[-1])
+            if doc_object.path.name.split('.')[-1] != 'pdf':
+                thumb.image = doc_object.path.file
+            thumb.save()
             return redirect('my_documents')
     context = {'uploadform': form,
                'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
-               'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
-               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
+               'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False)[:4],
+               'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:4],
+               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False)[:4],
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
                'downloadform':DownloadDocumentForm(),
                'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False),
                }
     return render(request, 'documents/my_documents.html', context)
+
 
 class DocumentDetailView(DetailView, UpdateView):
     model = Document

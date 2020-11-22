@@ -69,12 +69,10 @@ class Profile(models.Model):
     total_docs = models.IntegerField(default=None, null=True)
     in_trash = models.IntegerField(default=None, null=True)
     public_docs = models.IntegerField(default=None, null=True)
-    total_space = models.FloatField(default=0, null=True)
-    used_space = models.FloatField(default=0, null=True)
+    total_space = models.FloatField(default=None, null=True)
+    used_space = models.FloatField(default=None, null=True)
     important_docs = models.IntegerField(default=None, null=True)
     important_tags = models.CharField(max_length=100, default=None, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
-
-
