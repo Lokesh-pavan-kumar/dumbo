@@ -7,6 +7,7 @@ import os
 from dumbo.settings import BASE_DIR
 from datetime import date
 from django.core.signals import request_finished
+from accounts.models import Profile
 
 User = get_user_model()
 
@@ -56,6 +57,10 @@ def delete_blob(sender, instance, **kwargs):
     blob_name = instance.path.name
     blob = bucket.blob(blob_name)
     if blob.exists():
+        user = instance.owner
+        profile = Profile.objects.get(user = user)
+        profile.used_space -= instance.path.size 
+        profile.save()
         blob.delete()
 
 
