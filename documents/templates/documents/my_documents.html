@@ -62,7 +62,12 @@
     <ul class="messages pt-5 pb-0 m-0" style="z-index: -1;float:left;">
         {% for message in messages %}
             <div class="alert mt-5 alert-warning alert-dismissible fade show" role="alert">
-  {{ message }}
+  {% if 'safe' in message.tags %}
+      {{ message|safe }}
+  {% else %}
+      {{ message }}
+  {% endif %}
+
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>

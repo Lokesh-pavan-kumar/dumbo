@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UploadDocumentForm, DocumentUpdateForm, DownloadDocumentForm
-import requests
-from requests.auth import HTTPBasicAuth
 from .models import Document, thumbs
 from . import utils
 from django.contrib.auth.decorators import login_required
@@ -12,6 +10,7 @@ from django.db.models import Q
 from accounts.models import Profile
 from django.contrib import messages
 from .forms import ImportantTagsForm
+from .doc_conversion import getConvertedImage
 
 
 def storage_access(user_profile, doc):
@@ -80,10 +79,10 @@ def my_documents(request):
                'downloadform': DownloadDocumentForm(),
                'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False),
                'storage_exceeded': storage_exceeded,
-               'remaining_space': round((profile.total_space - profile.used_space) * 1e-9, 2),
-               'total_space': profile.total_space * 1e-9,
+               'remaining_space': round((profile.total_space - profile.used_space) * 1e-6, 2),
+               'total_space': profile.total_space * 1e-6,
                'data_value': 100 - ((profile.total_space - profile.used_space) / profile.total_space) * 100,
-               'add_tag_form': ImportantTagsForm() 
+               'add_tag_form': ImportantTagsForm()
                }
     return render(request, 'documents/my_documents.html', context)
 
@@ -117,63 +116,16 @@ def DownloadFile(request):
         form = DownloadDocumentForm(request.POST)
         if form.is_valid():
             id = form.cleaned_data['document_id']
-            format = form.cleaned_data['format']
+            format_ = form.cleaned_data['format']
             document = Document.objects.get(owner=request.user, id=id)
             print(document.path.url)
-            to_format(document.path.url, document.name, format)
+            if format_ != 'pdf':
+                url = getConvertedImage(document.path.url, document.name, format_)
+            else:
+                url = getConvertedImage(document.path.url, document.name)
+            messages.success(request, f"Download at <a href='{url}'>link</a>", extra_tags='safe')
         return redirect('my_documents')
     return redirect('my_documents')
-
-
-def to_format(file_path: str, name: str, format_: str = 'pdf'):
-    api_key = '830dd544d855f1bb095949ecbd165a8f54b446b1'
-    job_id = start_job(api_key, file_path, format_)
-    target_file_id = conversion(api_key, job_id)
-    download_file(api_key, target_file_id, name, format_)
-
-
-def start_job(api_key: str, file_path: str, format_: str = 'pdf'):
-    endpoint = "https://sandbox.zamzar.com/v1/jobs"
-    target_format = format_
-
-    file_content = {'source_file': open(file_path, 'rb')}
-    data_content = {'target_format': target_format}
-    r = requests.post(endpoint, data=data_content, files=file_content, auth=HTTPBasicAuth(api_key, ''))
-    json_resp = r.json()
-    job_id = json_resp['id']
-    # source_file_id = json_resp['source_file']['id']
-    return job_id
-
-
-def conversion(api_key: str, job_id: int):
-    endpoint = f'https://sandbox.zamzar.com/v1/jobs/{job_id}'
-    while True:
-        r = requests.get(endpoint, auth=HTTPBasicAuth(api_key, ''))
-        json_resp = r.json()
-        status = json_resp['status']
-        if status == 'successful':
-            target_files = json_resp['target_files']
-            target_file_id = target_files[0]['id']
-            return target_file_id
-        else:
-            continue
-
-
-def download_file(api_key: str, target_file_id: int, name: str, format_: str = 'pdf'):
-    local_filename = f'{name}.{format_}'
-    endpoint = f'https://sandbox.zamzar.com/v1/files/{target_file_id}/content'
-
-    response = requests.get(endpoint, stream=True, auth=HTTPBasicAuth(api_key, ''))
-
-    try:
-        with open(local_filename, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=1024):
-                if chunk:
-                    f.write(chunk)
-                    f.flush()
-            print('File Downloaded and Saved')
-    except IOError:
-        print('Error')
 
 
 class SearchResultsView(ListView):
@@ -271,11 +223,11 @@ def trashed_documents(request):
 
     return render(request, 'documents/trashed_docs.html', context)
 
+
 def add_important_tag(request):
-    form = ImportantTagsForm()
     if request.method == 'POST':
         form = ImportantTagsForm(request.POST)
-        profile = Profile.objects.get(user = request.user)
+        profile = Profile.objects.get(user=request.user)
 
         if form.is_valid():
             tag = form.cleaned_data['tag']
@@ -285,6 +237,3 @@ def add_important_tag(request):
                 profile.save()
 
     return redirect('my_documents')
-
-
-
