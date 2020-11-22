@@ -54,7 +54,7 @@ def my_documents(request):
                'common_tags': Document.tags.most_common()[:10],
                'profile': Profile.objects.get(user=request.user),
                'downloadform':DownloadDocumentForm(),
-               'thumbs': thumbs.objects.filter(id__owner=request.user, id__is_public=True, id__in_trash=False)[:4],
+               'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False),
                }
     return render(request, 'documents/my_documents.html', context)
 
