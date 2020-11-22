@@ -141,7 +141,7 @@
     {% endif %}
         <img class="img-fluid mx-5" style="border-radius: 10px; height: 300px;width: 300px" src="{{ profile.image.url }}" alt="profile pic">
         <div class="container mx-5">
-             <div class="progress my-5 ml-5" data-value='20'>
+             <div class="progress my-5 ml-5" data-value={{ data_value }}>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
@@ -149,7 +149,7 @@
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
           <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-            <div class="lead text-center">Remaining <br> ##GB/###GB</div>
+            <div class="lead text-center">Remaining <br> {{ remaining_space }} GB / {{ total_space }}GB</div>
           </div>
         </div>
         </div>

@@ -13,6 +13,17 @@ from accounts.models import Profile
 from django.contrib import messages
 
 
+def storage_access(user_profile, doc):
+    storage_limit = user_profile.total_space
+    used_space = user_profile.used_space
+    doc_space = doc.path.size
+    if used_space + doc_space < storage_limit:
+        user_profile.used_space += doc_space
+        user_profile.save()
+        return True
+    return False
+
+
 # Create your views here.
 def get_doc_tags(doc_name: str):
     # doc_name := documents/{name}.ext
@@ -31,31 +42,46 @@ def get_doc_tags(doc_name: str):
 @login_required(login_url='/user/login')
 def my_documents(request):
     form = UploadDocumentForm()
+    profile = Profile.objects.get(user=request.user)
+    storage_exceeded = True if profile.used_space >= profile.total_space else False
     if request.method == 'POST':
         form = UploadDocumentForm(request.POST, request.FILES)
         if form.is_valid():
             doc_object = form.save(commit=False)
             doc_object.owner = request.user
             doc_object.save()
-            tags = get_doc_tags(doc_object.path.name)
-            if tags is not None:
-                doc_object.tags.add(*tags)
-                doc_object.save()
-            thumb = thumbs(id=doc_object)
-            print(doc_object.path.name.split('.')[-1])
-            if doc_object.path.name.split('.')[-1] != 'pdf':
-                thumb.image = doc_object.path.file
-            thumb.save()
+            has_storage_access = storage_access(profile, doc_object)
+            if has_storage_access:
+                tags = get_doc_tags(doc_object.path.name)
+                if tags is not None:
+                    doc_object.tags.add(*tags)
+                    doc_object.save()
+                thumb = thumbs(id=doc_object)
+                print(doc_object.path.name.split('.')[-1])
+                if doc_object.path.name.split('.')[-1] != 'pdf':
+                    thumb.image = doc_object.path.file
+                thumb.save()
+            else:
+                doc_object.delete()
+                print('Storage Exceeded')
+                messages.warning(request, f'Sorry! Please upgrade your storage plan to upload more documents!')
             return redirect('my_documents')
     context = {'uploadform': form,
-               'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[:4],
+               'recent_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by('date_added')[
+                                   :4],
                'public_documents': Document.objects.filter(is_public=True, owner=request.user, in_trash=False)[:4],
-               'most_viewed_documents' : Document.objects.filter(owner=request.user, in_trash=False).order_by('-view_count')[:4],
-               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False)[:4],
+               'most_viewed_documents': Document.objects.filter(owner=request.user, in_trash=False).order_by(
+                   '-view_count')[:4],
+               'important_documents': Document.objects.filter(is_important=True, owner=request.user, in_trash=False)[
+                                      :4],
                'common_tags': Document.tags.most_common()[:10],
-               'profile': Profile.objects.get(user=request.user),
-               'downloadform':DownloadDocumentForm(),
+               'profile': profile,
+               'downloadform': DownloadDocumentForm(),
                'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=False),
+               'storage_exceeded': storage_exceeded,
+               'remaining_space': round((profile.total_space - profile.used_space) * 1e-9, 2),
+               'total_space': profile.total_space * 1e-9,
+               'data_value': 100 - ((profile.total_space - profile.used_space) / profile.total_space) * 100
                }
     return render(request, 'documents/my_documents.html', context)
 
@@ -68,7 +94,7 @@ class DocumentDetailView(DetailView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         required = Document.objects.get(pk=kwargs['object'].pk)
         required.view_count += 1
         required.save()
@@ -238,7 +264,7 @@ def trashed_documents(request):
                'uploadform': UploadDocumentForm(),
                'profile': Profile.objects.get(user=request.user),
                'title': 'trash',
-               'thumbs': thumbs.objects.filter(id__owner=request.user,id__in_trash=True),
+               'thumbs': thumbs.objects.filter(id__owner=request.user, id__in_trash=True),
                }
 
     return render(request, 'documents/trashed_docs.html', context)

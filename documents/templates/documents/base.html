@@ -625,8 +625,8 @@ input, select {
 </style>
 <style>
     .progress {
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 200px;
   background: none;
   position: relative;
 
@@ -841,8 +841,8 @@ input, select {
                 <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
              </a>
          </div>
-            <div class="container-fluid ml-4">
-             <div class="progress my-5" data-value='60'>
+            <div class="container-fluid">
+             <div class="progress my-5" data-value={{ data_value }}>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
@@ -850,7 +850,7 @@ input, select {
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
           <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-            <div class="lead text-center" style="font-size: 16px">Remaining <br> ##GB/###GB</div>
+            <div class="lead text-center" style="font-size: 16px">Remaining <br> {{ remaining_space }} GB/{{ total_space }} GB</div>
           </div>
         </div>
         </div>

@@ -15,6 +15,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .decorators import redirect_user
+from documents.models import Document
 
 
 # Create your views here.
@@ -46,6 +47,7 @@ def register(request):  # This view is used to register new users into the appli
     else:
         form = DumboUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
+
 
 @redirect_user
 def login_view(request):
@@ -98,11 +100,22 @@ def profile(request):
         u_form = UserUpdateForm()
         p_form = ProfileUpdateForm()
 
+    user_profile = Profile.objects.get(user=request.user)
+
+    user_profile.in_trash = len(Document.objects.filter(owner=request.user, in_trash=True))
+    user_profile.total_docs = len(Document.objects.filter(owner=request.user))
+    user_profile.public_docs = len(Document.objects.filter(owner=request.user, is_public=True))
+    user_profile.important_docs = len(Document.objects.filter(owner=request.user, is_important=True))
+
+    user_profile.save()
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'profile': Profile.objects.get(user=request.user),
-        'form': PasswordChangeForm(user=request.user)
+        'profile': user_profile,
+        'form': PasswordChangeForm(user=request.user),
+        'remaining_space': round((user_profile.total_space - user_profile.used_space) * 1e-9, 2),
+        'total_space': user_profile.total_space * 1e-9,
+        'data_value': 100 - ((user_profile.total_space - user_profile.used_space) / user_profile.total_space) * 100
     }
 
     return render(request, 'accounts/profile.html', context)
