@@ -11,6 +11,7 @@ from django.views.generic.edit import UpdateView
 from django.db.models import Q
 from accounts.models import Profile
 from django.contrib import messages
+from .forms import ImportantTagsForm
 
 
 def storage_access(user_profile, doc):
@@ -81,7 +82,8 @@ def my_documents(request):
                'storage_exceeded': storage_exceeded,
                'remaining_space': round((profile.total_space - profile.used_space) * 1e-9, 2),
                'total_space': profile.total_space * 1e-9,
-               'data_value': 100 - ((profile.total_space - profile.used_space) / profile.total_space) * 100
+               'data_value': 100 - ((profile.total_space - profile.used_space) / profile.total_space) * 100,
+               'add_tag_form': ImportantTagsForm() 
                }
     return render(request, 'documents/my_documents.html', context)
 
@@ -268,3 +270,21 @@ def trashed_documents(request):
                }
 
     return render(request, 'documents/trashed_docs.html', context)
+
+def add_important_tag(request):
+    form = ImportantTagsForm()
+    if request.method == 'POST':
+        form = ImportantTagsForm(request.POST)
+        profile = Profile.objects.get(user = request.user)
+
+        if form.is_valid():
+            tag = form.cleaned_data['tag']
+
+            if tag is not None:
+                profile.important_tags.add(tag)
+                profile.save()
+
+    return redirect('my_documents')
+
+
+

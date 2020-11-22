@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -72,7 +73,7 @@ class Profile(models.Model):
     total_space = models.FloatField(default=2e+9, null=True)
     used_space = models.FloatField(default=0.0, null=True)
     important_docs = models.IntegerField(default=None, null=True)
-    important_tags = models.CharField(max_length=100, default=None, null=True)
+    important_tags = TaggableManager()
 
     def __str__(self):
         return f'{self.user.username} Profile'
