@@ -33,7 +33,6 @@ class Document(models.Model):
     is_public = models.BooleanField()
     is_important = models.BooleanField()
     in_trash = models.BooleanField(default=False)
-    view_count = models.IntegerField(default=0)
 
     def __str__(self):
         owner_name = self.owner.username
