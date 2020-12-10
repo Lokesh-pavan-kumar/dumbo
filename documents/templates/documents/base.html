@@ -625,8 +625,8 @@ input, select {
 </style>
 <style>
     .progress {
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 200px;
   background: none;
   position: relative;
 
@@ -831,9 +831,29 @@ input, select {
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-container">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
+            <form action="/user/documents/addtag" method="POST">
+                {% csrf_token %}
+                <input type="text" name="tag">
+                <button type="submit"> 
+                  Submit
+                </button>
+            </form>
+                <form action="{% url 'filter_results' %}" method="get" id="Search">
+                    <div class="form-group" style="width: 100%;margin: auto">
+                        <button id="btnget" style="background-color: #162B41;color: white;font-size: 12px;border-radius: 3px;position: sticky" class="btn">
+                            Search
+                        </button>
+                    </div>
+                   {% for tag in profile.important_tags.all %}
+                            <div class="form-group">
+                            <input type="checkbox"  value="{{ tag }}" id="{{ tag }}">
+                             <label class="" style="width: 90%;align-content: center;font-size: 12px" for="{{ tag }}">
+                                {{ tag }}
+                            </label>
+                            </div>
+                    {% endfor %}
+                     <input type="text" id="Filter" name="q" style="visibility: hidden;">
+              </form>
           </div>
          <div class="pt-3 mb-5 d-flex justify-content-center">
              <a class="m-0 p-0" href="{% url "trash" %}" style="width:100%;text-decoration: none;background:none;">
@@ -841,8 +861,8 @@ input, select {
                 <i class="fas fa-trash" style="color: #162B41"></i> Trash</button>
              </a>
          </div>
-            <div class="container-fluid ml-4">
-             <div class="progress my-5" data-value='60'>
+            <div class="container-fluid">
+             <div class="progress my-5" data-value={{ data_value }}>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
@@ -850,7 +870,7 @@ input, select {
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
           <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-            <div class="lead text-center" style="font-size: 16px">Remaining <br> ##GB/###GB</div>
+            <div class="lead text-center" style="font-size: 16px">Remaining <br> {{ remaining_space }} MB/{{ total_space }} MB</div>
           </div>
         </div>
         </div>
@@ -996,6 +1016,25 @@ for (i = 0; i < dropdown.length; i++) {
         });
     });
 </script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnget").click(function () {
+            //Create an Array.
+            var selected = new Array();
+
+            //Reference the CheckBoxes and insert the checked CheckBox value in Array.
+            $("#Search input[type=checkbox]:checked").each(function () {
+                selected.push(this.value);
+            });
+
+            //Display the selected CheckBox values.
+            x = document.getElementById('Filter');
+            x.value = selected.join("+");
+        });
+    });
+</script>
+
 <script>
     document.onreadystatechange = function() {
     if (document.readyState !== "complete") {

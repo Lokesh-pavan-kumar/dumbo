@@ -10,4 +10,5 @@ urlpatterns = [
     path('toggle-trash/<int:pk>', views.toggle_trash, name='toggle-trash'),
     path('delete-document/<int:pk>', views.delete_document, name='delete-document'),
     path('trash', views.trashed_documents, name='trash'),
+    path('addtag', views.add_important_tag, name='add_important_tag'),
 ]

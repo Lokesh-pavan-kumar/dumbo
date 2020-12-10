@@ -12,9 +12,9 @@
                 <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 28px;color: rgba(0,0,0,0.5)">In Trash</small><br>
             </div>
             <div class="col-sm-1 text-right">
-                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">56</small><br>
-                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">25</small><br>
-                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">16</small><br>
+                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">{{ profile.total_docs }}</small><br>
+                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">{{ profile.public_docs }}</small><br>
+                <small style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};font-size: 32px;">{{ profile.in_trash }}</small><br>
             </div>
         </div>
         <nav>

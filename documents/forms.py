@@ -1,5 +1,6 @@
 from django import forms
 from .models import Document
+from accounts.models import Profile
 
 
 class UploadDocumentForm(forms.ModelForm):
@@ -22,3 +23,7 @@ class DownloadDocumentForm(forms.Form):
     )
     document_id = forms.CharField(label='document_id', max_length=100)
     format = forms.ChoiceField(label='format', choices=format_choices)
+
+class ImportantTagsForm(forms.Form):
+    tag = forms.CharField(label='add a tag', max_length=30)
+    

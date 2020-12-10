@@ -33,6 +33,7 @@ AUTH_USER_MODEL = 'accounts.DumboUser'
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'documents.apps.DocumentsConfig',
+    'services.apps.ServicesConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,11 +42,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'social_django',  # Third parth authentication python3 -m pip install django social-auth-app-django
+    'social_django',  # Third party authentication python3 -m pip install django social-auth-app-django
     'widget_tweaks',
     'taggit',
-
+    'rest_framework',
+    'knox'
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['knox.auth.TokenAuthentication'],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
