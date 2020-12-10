@@ -82,7 +82,9 @@ def my_documents(request):
                'remaining_space': round((profile.total_space - profile.used_space) * 1e-6, 2),
                'total_space': profile.total_space * 1e-6,
                'data_value': 100 - ((profile.total_space - profile.used_space) / profile.total_space) * 100,
-               'add_tag_form': ImportantTagsForm()
+               'add_tag_form': ImportantTagsForm(),
+               'allPublic': Document.objects.filter(is_public=True, owner=request.user, in_trash=False),
+               'allImp': Document.objects.filter(is_important=True, owner=request.user, in_trash=False),
                }
     return render(request, 'documents/my_documents.html', context)
 

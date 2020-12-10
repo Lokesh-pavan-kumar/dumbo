@@ -4,7 +4,6 @@ from django.core.mail import send_mail
 from django.contrib import messages
 
 
-
 def landing_page(request):
     return render(request, 'landingpage.html', {})
 
