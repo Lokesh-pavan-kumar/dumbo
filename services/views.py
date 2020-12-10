@@ -9,6 +9,7 @@ from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from accounts.models import DumboUser
 
 
 # Create your views here.
@@ -47,3 +48,15 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+
+class PublicDocumentAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        queried_username = kwargs.get('username', None)
+        user = DumboUser.objects.filter(username=queried_username)
+        if user:
+            docs = Document.objects.filter(is_public=True, owner__username=queried_username)
+            serializer = DocumentSerializer(docs, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(data={'Sorry, the requested user does not exist!'})
