@@ -862,7 +862,7 @@ input, select {
              </a>
          </div>
             <div class="container-fluid">
-             <div class="progress my-5" data-value={{ data_value }}>
+             <div class="progress my-5" data-value={% if title == 'search' %}{% for data in data_value %}{{ data }}{% endfor %}{% else %}{{ data_value }}{% endif %}>
           <span class="progress-left">
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
@@ -870,7 +870,7 @@ input, select {
                         <span style="border-color: #190C69" class="progress-bar"></span>
           </span>
           <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-            <div class="lead text-center" style="font-size: 16px">Remaining <br> {{ remaining_space }} MB/{{ total_space }} MB</div>
+            <div class="lead text-center" style="font-size: 16px">Remaining <br>{% if title == 'search' %}{% for r in remaining_space %}{{ r }} MB/{% endfor %}{% for t in total_space %}{{ t }} MB{% endfor %}{% else %} {{ remaining_space }} MB/{{ total_space }} MB{% endif %}</div>
           </div>
         </div>
         </div>
@@ -893,7 +893,7 @@ input, select {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post", enctype="multipart/form-data" id="upload">
+      <form method="post" enctype="multipart/form-data" id="upload">
           {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">

@@ -11,6 +11,400 @@
 </head>
 <body>
 <style>
+    @import url("https://fonts.googleapis.com/css?family=Exo:300");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Exo", sans-serif;
+  font-size: 16px;
+}
+
+.wrap-loader {
+    z-index: 99999999;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  height: 100vh;
+  background: white;
+}
+
+.loader {
+  position: relative;
+  width: 20rem;
+  height: 20rem;
+}
+.loader::before {
+  z-index: 1;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 8.6956521739rem;
+  height: 8.6956521739rem;
+  background: white;
+  border-radius: 50%;
+}
+.loader .box {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  overflow: hidden;
+}
+.loader .box::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+.loader .box:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+.loader .box:nth-child(1)::before {
+  top: 50%;
+  left: 50%;
+  background: #4185f3;
+  -webkit-animation: lightMe1 4s ease-out infinite normal;
+          animation: lightMe1 4s ease-out infinite normal;
+}
+.loader .box:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+.loader .box:nth-child(2)::before {
+  top: 50%;
+  right: 50%;
+  background: #33a753;
+  -webkit-animation: lightMe2 4s ease-out infinite normal;
+          animation: lightMe2 4s ease-out infinite normal;
+}
+.loader .box:nth-child(3) {
+  bottom: 0;
+  right: 0;
+}
+.loader .box:nth-child(3)::before {
+  bottom: 50%;
+  right: 50%;
+  background: #fabb04;
+  -webkit-animation: lightMe3 4s ease-out infinite normal;
+          animation: lightMe3 4s ease-out infinite normal;
+}
+.loader .box:nth-child(4) {
+  bottom: 0;
+  left: 0;
+}
+.loader .box:nth-child(4)::before {
+  bottom: 50%;
+  left: 50%;
+  background: #e94234;
+  -webkit-animation: lightMe4 4s linear infinite normal;
+          animation: lightMe4 4s linear infinite normal;
+}
+.loader .wrap-text {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+}
+.loader .text {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  -webkit-animation: slider 8s ease-in infinite;
+          animation: slider 8s ease-in infinite;
+}
+.loader .text span {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 2em;
+  color: black;
+}
+
+.loader-text {
+  color: black;
+  -webkit-transform: translateY(-2rem);
+          transform: translateY(-2rem);
+  letter-spacing: 6px;
+  opacity: 0.2;
+  -webkit-animation: blink 1s ease-out infinite alternate;
+          animation: blink 1s ease-out infinite alternate;
+}
+
+@-webkit-keyframes lightMe1 {
+  0% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes lightMe1 {
+  0% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes lightMe2 {
+  0% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes lightMe2 {
+  0% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes lightMe3 {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes lightMe3 {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes lightMe4 {
+  0% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes lightMe4 {
+  0% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slider {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  10.5% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  12.5% {
+    -webkit-transform: translateY(-40px);
+            transform: translateY(-40px);
+  }
+  23% {
+    -webkit-transform: translateY(-40px);
+            transform: translateY(-40px);
+  }
+  25% {
+    -webkit-transform: translateY(-80px);
+            transform: translateY(-80px);
+  }
+  35% {
+    -webkit-transform: translateY(-80px);
+            transform: translateY(-80px);
+  }
+  37.5% {
+    -webkit-transform: translateY(-120px);
+            transform: translateY(-120px);
+  }
+  47.5% {
+    -webkit-transform: translateY(-120px);
+            transform: translateY(-120px);
+  }
+  50% {
+    -webkit-transform: translateY(-160px);
+            transform: translateY(-160px);
+  }
+  60% {
+    -webkit-transform: translateY(-160px);
+            transform: translateY(-160px);
+  }
+  62.5% {
+    -webkit-transform: translateY(-200px);
+            transform: translateY(-200px);
+  }
+  72.5% {
+    -webkit-transform: translateY(-200px);
+            transform: translateY(-200px);
+  }
+  75% {
+    -webkit-transform: translateY(-240px);
+            transform: translateY(-240px);
+  }
+  85% {
+    -webkit-transform: translateY(-240px);
+            transform: translateY(-240px);
+  }
+  87.5% {
+    -webkit-transform: translateY(-280px);
+            transform: translateY(-280px);
+  }
+  100% {
+    -webkit-transform: translateY(-280px);
+            transform: translateY(-280px);
+  }
+}
+@keyframes slider {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  10.5% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  12.5% {
+    -webkit-transform: translateY(-40px);
+            transform: translateY(-40px);
+  }
+  23% {
+    -webkit-transform: translateY(-40px);
+            transform: translateY(-40px);
+  }
+  25% {
+    -webkit-transform: translateY(-80px);
+            transform: translateY(-80px);
+  }
+  35% {
+    -webkit-transform: translateY(-80px);
+            transform: translateY(-80px);
+  }
+  37.5% {
+    -webkit-transform: translateY(-120px);
+            transform: translateY(-120px);
+  }
+  47.5% {
+    -webkit-transform: translateY(-120px);
+            transform: translateY(-120px);
+  }
+  50% {
+    -webkit-transform: translateY(-160px);
+            transform: translateY(-160px);
+  }
+  60% {
+    -webkit-transform: translateY(-160px);
+            transform: translateY(-160px);
+  }
+  62.5% {
+    -webkit-transform: translateY(-200px);
+            transform: translateY(-200px);
+  }
+  72.5% {
+    -webkit-transform: translateY(-200px);
+            transform: translateY(-200px);
+  }
+  75% {
+    -webkit-transform: translateY(-240px);
+            transform: translateY(-240px);
+  }
+  85% {
+    -webkit-transform: translateY(-240px);
+            transform: translateY(-240px);
+  }
+  87.5% {
+    -webkit-transform: translateY(-280px);
+            transform: translateY(-280px);
+  }
+  100% {
+    -webkit-transform: translateY(-280px);
+            transform: translateY(-280px);
+  }
+}
+@-webkit-keyframes blink {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.75;
+  }
+}
+@keyframes blink {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.75;
+  }
+}
+
+    </style>
+<style>
     .dumboIcon {
         position: absolute;
         width: 238px;
@@ -222,6 +616,19 @@ input, select {
   outline: none;
 }
 </style>
+ <div class="wrap-loader" id="loader">
+  <div class="loader">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="wrap-text">
+      <div class="text"><span>D</span><span>U</span><span>M</span><span>B</span><span>O</span><span>...</span>
+      </div>
+    </div>
+  </div>
+  <div class="loader-text">Upload in Progress</div>
+</div>
 <div class="container-fluid border-bottom shadow-lg fixed-top" style="top:0;left:0;">
     <div class="dumboIcon" style="background: #162B41;z-index: 2"><! dumbo icon and dumbo text>
         <a href="{% url "my_documents" %}"><h2 style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %}; width: 121px;height: 37px;left: 61px;top: 47px;color: #ffffff;letter-spacing: 0.025em;font-size: 30px;line-height: 37px;position: absolute">Dumbo</h2></a>
@@ -273,7 +680,7 @@ input, select {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="/user/documents/" , enctype="multipart/form-data">
+      <form method="post" action="/user/documents/"  enctype="multipart/form-data" id="upload">
           {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">
@@ -296,7 +703,7 @@ input, select {
             </div>
             {% render_field uploadform.path type="file" name="document" %}
         <div class="modal-footer border-top-0 d-flex justify-content-center">
-          <button type="submit" class="btn btn-success">Upload</button>
+          <button type="submit" class="btn btn-success" id="load">Upload</button>
         </div>
         </div>
       </form>
@@ -407,6 +814,26 @@ $("#context-menu a").on("click", function() {
         });
     });
 </script>
+<script>
+    document.onreadystatechange = function() {
+    if (document.readyState !== "complete") {
+        document.querySelector("body").style.display = "none";
+        document.querySelector("#loader").style.display = "flex";
+    }
+    else {
+        document.querySelector("body").style.display = "block";
+        document.querySelector("#loader").style.display = "none";
+    }
+    document.getElementById("load").onclick=function () {
+        document.querySelector("body").style.visibility = "hidden";
+        document.querySelector("#loader").style.visibility = "visible";
+        document.querySelector("#loader").style.display="flex";
+        document.getElementById("upload").submit();
+    }
+};
 
+
+
+</script>
 </body>
 </html>

@@ -141,6 +141,9 @@ class SearchResultsView(ListView):
         context['downloadfomr'] = DownloadDocumentForm()
         context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
         context['q'] = query = self.request.GET.get('q')
+        context['remaining_space'] = round((Profile.objects.get(user=self.request.user).total_space - Profile.objects.get(user=self.request.user).used_space) * 1e-6, 2),
+        context['total_space'] = Profile.objects.get(user=self.request.user).total_space * 1e-6,
+        context['data_value'] = 100 - ((Profile.objects.get(user=self.request.user).total_space - Profile.objects.get(user=self.request.user).used_space) / Profile.objects.get(user=self.request.user).total_space) * 100,
 
         return context
 
@@ -174,6 +177,11 @@ class FilterResultsView(ListView):
         context['downloadfomr'] = DownloadDocumentForm()
         context['thumbs'] = thumbs.objects.filter(id__owner=self.request.user, id__in_trash=False)
         context['q'] = self.request.GET.get('q')
+        context['remaining_space'] = round((Profile.objects.get(
+            user=self.request.user).total_space - Profile.objects.get(user=self.request.user).used_space) * 1e-6, 2),
+        context['total_space'] = Profile.objects.get(user=self.request.user).total_space * 1e-6,
+        context['data_value'] = 100 - ((Profile.objects.get(user=self.request.user).total_space - Profile.objects.get(
+            user=self.request.user).used_space) / Profile.objects.get(user=self.request.user).total_space) * 100,
 
         return context
 

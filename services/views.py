@@ -15,7 +15,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 class DocumentRestUpload(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         docs = Document.objects.filter(is_public=True)
