@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import DocumentRestUpload, LoginAPI
+from .views import DocumentAPIUpload, LoginAPI, PublicDocumentAPI
 
 urlpatterns = [
-    path('', DocumentRestUpload.as_view(), name='document-api-upload'),
-    path('login', LoginAPI.as_view(), name='api-login')
+    path('login', LoginAPI.as_view(), name='api-login'),
+    path('search/<str:username>/', PublicDocumentAPI.as_view(), name='user-public-docs'),
+    path('upload', DocumentAPIUpload.as_view(), name='document-api-upload'),
 ]

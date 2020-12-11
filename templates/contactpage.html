@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+    <div class="container-fluid pt-5">
+        <div class="row">
+            <div class="col">
+            <h1 class="display-2 text-center" style="font-family: {% static "accounts/ Montserrat-Medium.ttf" %};">Contact Us</h1>
+                 <div class="container px-0 pb-0 m-0">
+            {% if messages %}
+    <ul class="messages pt-5 pb-0 m-0" style="z-index: -1;float:left;">
+        {% for message in messages %}
+            <div class="alert mt-5 alert-warning alert-dismissible fade show text-center" role="alert">
+  {% if 'safe' in message.tags %}
+      {{ message|safe }}
+  {% else %}
+      {{ message }}
+  {% endif %}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+            {% endfor %}
+        </div>
+    </ul>
+    {% endif %}
+        </div>
+        </div>
+        <div class="col d-flex justify-content-center" style="float: right">
+            <form class="form" action="" method="post">
+                {% csrf_token %}
+                <label class="py-3" style="font-size: 20px" for="name">Name</label><br>
+                <input type="text" name="name" style="width: 400px;background-color: #f2f2f2;border: none" id="name"><br>
+                <label class="py-3" style="font-size: 20px" for="email">Email ID</label><br>
+                <input type="email" name="email" style="width: 400px;background-color: #f2f2f2;border: none" id="email"><br>
+                <label class="py-3" style="font-size: 20px" for="subject">Subject</label><br>
+                <input  type="text" name="subject" style="width: 400px;background-color: #f2f2f2;border: none" id="subject"><br>
+                <label class="py-3" style="font-size: 20px" for="message">Message</label><br>
+                <textarea type="text" name="message" style="width: 400px;background-color: #f2f2f2;border: none" rows="10" id="message"></textarea><br>
+                <button class="my-3 btn" style="background-color: #162B41;color: white;font-size: 20px" type="submit">Send</button>
+            </form>
+        </div>
+        </div>
+    </div>
+        <img src="{% static "accounts/Vector 1.png" %}" alt="" style="z-index: -3;width: 100%;position: fixed;top: 40%">
+
+{% endblock %}
