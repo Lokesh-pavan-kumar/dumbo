@@ -13,20 +13,21 @@ from accounts.models import DumboUser
 
 
 # Create your views here.
-class DocumentRestUpload(APIView):
+class DocumentAPIUpload(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        docs = Document.objects.filter(is_public=True)
+        docs = Document.objects.filter(owner=request.user)
         serializer = DocumentSerializer(docs, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         serializer = DocumentSerializer(data=request.data)
+        print(request.user)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             doc_object = Document.objects.get(name=serializer.data['name'], owner_id=serializer.data['owner'])
             tags = get_doc_tags(doc_object.path.name)
             if tags is not None:
@@ -42,7 +43,7 @@ class DocumentRestUpload(APIView):
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, format=None):
+    def post(self, request, format_=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']

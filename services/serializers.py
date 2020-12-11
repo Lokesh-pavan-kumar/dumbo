@@ -15,3 +15,4 @@ class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ('name', 'path', 'owner', 'is_public', 'is_important')
+        read_only_fields = ['owner']
