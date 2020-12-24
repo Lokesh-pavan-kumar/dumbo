@@ -39,13 +39,13 @@ The user can even reset the password from this page (not applicable for thirdy p
 Other profile related info can be modified here.
 
 # Exposed API's
-##1. Upload from
+## 1. Upload from
   A service when integrated in other applications allows the users to upload documents from their dumbo profile to ther applications.
 
-##2. Upload to
+## 2. Upload to
   A service when integrated in other applications allows the users to upload documents to theri dumbo profile from other applications.
 
-##3. Public Document View
+## 3. Public Document View
   A service when integrated in other applications allows the users to view all the documents in a dumbo profile using their username.
   
   
