@@ -25,8 +25,7 @@ def contact(request):
                 subject,# subject
                 f'Hi founder \nYou got a message from {name} \nThe message is \n{message} \ncontact info: {email}',# message
                 'noreply.farmx@gmail.com', # from email
-                ['o.taruntejaa@gmail.com', 'lokesh.7.8.kl@gmail.com', 'srichu.kattamuru@gmail.com',
-                 'jayachand2001@gmail.com'],
+                #[emails list here]
             )
             messages.success(request, f'thanks for contacting {name}.\nWe wil get back to you soon.')
             return redirect('contact_page')
